@@ -20,6 +20,7 @@ class HcalDigi : public Object {
   virtual float fc    (int i) = 0;
   virtual int   adc   (int i) = 0;
   
+  float  fcTotal();
   double time();
   bool   isSignal();
 

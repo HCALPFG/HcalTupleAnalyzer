@@ -33,3 +33,11 @@ bool HcalDigi::isSignal(){
   if(fc(Imax)>5.5 && sum>(fc(Imax)*0.20)) return true;
   return false;
 }
+
+float HcalDigi::fcTotal() {
+  float retval = 0.;
+  for (int i = 0; i < size(); ++i){
+    retval += fc(i);
+  }
+  return retval;
+}
