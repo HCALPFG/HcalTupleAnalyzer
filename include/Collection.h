@@ -68,11 +68,11 @@ class Collection {
 
   template <class Object1, class Object2> 
     int HasHowMany ( const CollectionPtr other_collection ){
-    std::vector<unsigned short> other_collection_raw_indices = other_collection -> GetRawIndices();
+    std::vector<unsigned short> * other_collection_raw_indices = other_collection -> GetRawIndices();
     std::vector<unsigned short> common_raw_indices;
     // std::sort ( m_raw_indices.begin(), m_raw_indices.end() );
     // std::sort ( other_collection_raw_indices.begin(), other_collection_raw_indices.end() );
-    std::set_intersection ( other_collection_raw_indices.begin(), other_collection_raw_indices.end(),
+    std::set_intersection ( other_collection_raw_indices -> begin(), other_collection_raw_indices -> end(),
 			    m_raw_indices.begin()               , m_raw_indices.end(),
 			    std::back_inserter ( common_raw_indices ) );
     return common_raw_indices.size();
