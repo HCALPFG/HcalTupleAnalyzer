@@ -1,5 +1,5 @@
 COMP=g++
-FLAGS=
+FLAGS=-std=c++11
 ROOTINC= -I`root-config --incdir`
 ROOTLIBS=  `root-config --glibs --cflags | sed 's/-pthread//g'` -lMinuit 
 INC= -I./include 
