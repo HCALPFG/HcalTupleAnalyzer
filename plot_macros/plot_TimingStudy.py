@@ -8,7 +8,9 @@ variables = [
     "ho_cosmic_timing",
     "hbhe_cosmic_timing",
     "ho_cosmic_energy",
-    "hbhe_cosmic_energy"
+    "hbhe_cosmic_energy",
+    "ho_cosmic_recHitTiming",
+    "hbhe_cosmic_recHitTiming",
 ]
 
 triggers = [
@@ -22,6 +24,8 @@ d_variable_title = {
     "hbhe_cosmic_timing": "Timing of HBHE RecHits with muon hit",
     "ho_cosmic_energy"  : "Energy of HO RecHits with muon hit",
     "hbhe_cosmic_energy": "Energy of HBHE RecHits with muon hit",
+    "ho_cosmic_recHitTiming": "RecHit Timing of HO RecHits with muon hit",
+    "hbhe_cosmic_recHitTiming": "RecHit Timing of HBHE RecHits with muon hit",
 }
 
 d_variable_xaxisTitle = {
@@ -29,6 +33,8 @@ d_variable_xaxisTitle = {
     "hbhe_cosmic_timing": "HBHE RecHit timing [25 ns]",
     "ho_cosmic_energy"  : "HO RecHit energy [GeV]",
     "hbhe_cosmic_energy": "HBHE RecHit energy [GeV]",
+    "ho_cosmic_recHitTiming": "HO RecHit timing [25 ns]",
+    "hbhe_cosmic_recHitTiming": "HBHE RecHit timing [25 ns]",
 }
 
 yaxisTitle = "A.U. [unit-normalized]"
