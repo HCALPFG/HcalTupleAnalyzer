@@ -1,1 +1,1 @@
-/afs/cern.ch/user/e/eberry/work/HCALPFG/CMSSW_7_1_7/src/HCALPFG/HcalTupleAnalyzer/macros/analysisClass_TimingStudy.C
+../macros/analysisClass_TimingStudy.C
