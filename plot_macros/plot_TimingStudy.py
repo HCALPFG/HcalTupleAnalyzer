@@ -29,10 +29,10 @@ d_variable_title = {
 }
 
 d_variable_xaxisTitle = {
-    "ho_cosmic_timing"  : "HO RecHit timing [25 ns]",
-    "hbhe_cosmic_timing": "HBHE RecHit timing [25 ns]",
-    "ho_cosmic_energy"  : "HO RecHit energy [GeV]",
-    "hbhe_cosmic_energy": "HBHE RecHit energy [GeV]",
+    "ho_cosmic_timing"  : "HO DigiHit timing [25 ns]",
+    "hbhe_cosmic_timing": "HBHE DigiHit timing [25 ns]",
+    "ho_cosmic_energy"  : "HO DigiHit energy [GeV]",
+    "hbhe_cosmic_energy": "HBHE DigiHit energy [GeV]",
     "ho_cosmic_recHitTiming": "HO RecHit timing [25 ns]",
     "hbhe_cosmic_recHitTiming": "HBHE RecHit timing [25 ns]",
 }

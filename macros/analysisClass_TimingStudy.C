@@ -71,13 +71,13 @@ void analysisClass::loop(){
   // Make histograms
   //--------------------------------------------------------------------------------
 
-  TH1F * ho_cosmic_timing_dtFired     = makeTH1F("ho_cosmic_timing_dtFired"    , 210, -100, 110);
-  TH1F * ho_cosmic_timing_hoFired     = makeTH1F("ho_cosmic_timing_hoFired"    , 210, -100, 110);
-  TH1F * ho_cosmic_timing_hodtFired   = makeTH1F("ho_cosmic_timing_hodtFired"  , 210, -100, 110);
+  TH1F * ho_cosmic_timing_dtFired     = makeTH1F("ho_cosmic_timing_dtFired"    , 50,-10,40);
+  TH1F * ho_cosmic_timing_hoFired     = makeTH1F("ho_cosmic_timing_hoFired"    , 50,-10,40);
+  TH1F * ho_cosmic_timing_hodtFired   = makeTH1F("ho_cosmic_timing_hodtFired"  , 50,-10,40);
 
-  TH1F * hbhe_cosmic_timing_dtFired   = makeTH1F("hbhe_cosmic_timing_dtFired"  , 210, -100, 110);
-  TH1F * hbhe_cosmic_timing_hoFired   = makeTH1F("hbhe_cosmic_timing_hoFired"  , 210, -100, 110);
-  TH1F * hbhe_cosmic_timing_hodtFired = makeTH1F("hbhe_cosmic_timing_hodtFired", 210, -100, 110);
+  TH1F * hbhe_cosmic_timing_dtFired   = makeTH1F("hbhe_cosmic_timing_dtFired"  , 50,-10,40);
+  TH1F * hbhe_cosmic_timing_hoFired   = makeTH1F("hbhe_cosmic_timing_hoFired"  , 50,-10,40);
+  TH1F * hbhe_cosmic_timing_hodtFired = makeTH1F("hbhe_cosmic_timing_hodtFired", 50,-10,40);
 
   TH1F * ho_cosmic_energy_dtFired     = makeTH1F("ho_cosmic_energy_dtFired"    , 100, 0, 10);
   TH1F * ho_cosmic_energy_hoFired     = makeTH1F("ho_cosmic_energy_hoFired"    , 100, 0, 10);
@@ -87,13 +87,13 @@ void analysisClass::loop(){
   TH1F * hbhe_cosmic_energy_hoFired   = makeTH1F("hbhe_cosmic_energy_hoFired"  , 100, 0, 10);
   TH1F * hbhe_cosmic_energy_hodtFired = makeTH1F("hbhe_cosmic_energy_hodtFired", 100, 0, 10);
 
-  TH2F * hbhe_cosmic_energy_vs_timing_dtFired   = makeTH2F("hbhe_cosmic_energy_vs_timing_dtFired"  , 100, 0, 10, 210, -100, 110 );
-  TH2F * hbhe_cosmic_energy_vs_timing_hoFired   = makeTH2F("hbhe_cosmic_energy_vs_timing_hoFired"  , 100, 0, 10, 210, -100, 110 );
-  TH2F * hbhe_cosmic_energy_vs_timing_hodtFired = makeTH2F("hbhe_cosmic_energy_vs_timing_hodtFired", 100, 0, 10, 210, -100, 110 );
+  TH2F * hbhe_cosmic_energy_vs_timing_dtFired   = makeTH2F("hbhe_cosmic_energy_vs_timing_dtFired"  , 100, 0, 10, 50,-10,40 );
+  TH2F * hbhe_cosmic_energy_vs_timing_hoFired   = makeTH2F("hbhe_cosmic_energy_vs_timing_hoFired"  , 100, 0, 10, 50,-10,40 );
+  TH2F * hbhe_cosmic_energy_vs_timing_hodtFired = makeTH2F("hbhe_cosmic_energy_vs_timing_hodtFired", 100, 0, 10, 50,-10,40 );
 
-  TH2F * ho_cosmic_energy_vs_timing_dtFired   = makeTH2F("ho_cosmic_energy_vs_timing_dtFired"  , 100, 0, 10, 210, -100, 110 );
-  TH2F * ho_cosmic_energy_vs_timing_hoFired   = makeTH2F("ho_cosmic_energy_vs_timing_hoFired"  , 100, 0, 10, 210, -100, 110 );
-  TH2F * ho_cosmic_energy_vs_timing_hodtFired = makeTH2F("ho_cosmic_energy_vs_timing_hodtFired", 100, 0, 10, 210, -100, 110 );
+  TH2F * ho_cosmic_energy_vs_timing_dtFired   = makeTH2F("ho_cosmic_energy_vs_timing_dtFired"  , 100, 0, 10, 50,-10,40 );
+  TH2F * ho_cosmic_energy_vs_timing_hoFired   = makeTH2F("ho_cosmic_energy_vs_timing_hoFired"  , 100, 0, 10, 50,-10,40 );
+  TH2F * ho_cosmic_energy_vs_timing_hodtFired = makeTH2F("ho_cosmic_energy_vs_timing_hodtFired", 100, 0, 10, 50,-10,40 );
 
   TH2F * hbhe_cosmic_occupancy_depth1_dtFired   = makeTH2F("hbhe_cosmic_occupancy_depth1_dtFired"  , 59, -29.5, 29.5, 72, 0.5, 72.5 );
   TH2F * hbhe_cosmic_occupancy_depth1_hoFired   = makeTH2F("hbhe_cosmic_occupancy_depth1_hoFired"  , 59, -29.5, 29.5, 72, 0.5, 72.5 );
