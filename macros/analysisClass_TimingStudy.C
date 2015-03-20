@@ -33,6 +33,8 @@ void analysisClass::loop(){
   							                     	     
   tuple_tree -> fChain -> SetBranchStatus("HBHECosmicDigiIEta"               , kTRUE );
   tuple_tree -> fChain -> SetBranchStatus("HBHECosmicDigiIPhi"               , kTRUE );
+  tuple_tree -> fChain -> SetBranchStatus("HBHECosmicDigiEta"               , kTRUE );
+  tuple_tree -> fChain -> SetBranchStatus("HBHECosmicDigiPhi"               , kTRUE );
   tuple_tree -> fChain -> SetBranchStatus("HBHECosmicDigiDepth"              , kTRUE );
   tuple_tree -> fChain -> SetBranchStatus("HBHECosmicDigiRecEnergy"          , kTRUE );
   tuple_tree -> fChain -> SetBranchStatus("HBHECosmicDigiRecTime"            , kTRUE );
@@ -41,6 +43,8 @@ void analysisClass::loop(){
 							                     	     
   tuple_tree -> fChain -> SetBranchStatus("HOCosmicDigiIEta"                 , kTRUE );
   tuple_tree -> fChain -> SetBranchStatus("HOCosmicDigiIPhi"                 , kTRUE );
+  tuple_tree -> fChain -> SetBranchStatus("HOCosmicDigiEta"                 , kTRUE );
+  tuple_tree -> fChain -> SetBranchStatus("HOCosmicDigiPhi"                 , kTRUE );
   tuple_tree -> fChain -> SetBranchStatus("HOCosmicDigiDepth"                , kTRUE );
   tuple_tree -> fChain -> SetBranchStatus("HOCosmicDigiRecEnergy"            , kTRUE );
   tuple_tree -> fChain -> SetBranchStatus("HOCosmicDigiRecTime"              , kTRUE );
@@ -71,13 +75,25 @@ void analysisClass::loop(){
   // Make histograms
   //--------------------------------------------------------------------------------
 
-  TH1F * ho_cosmic_timing_dtFired     = makeTH1F("ho_cosmic_timing_dtFired"    , 210, -100, 110);
-  TH1F * ho_cosmic_timing_hoFired     = makeTH1F("ho_cosmic_timing_hoFired"    , 210, -100, 110);
-  TH1F * ho_cosmic_timing_hodtFired   = makeTH1F("ho_cosmic_timing_hodtFired"  , 210, -100, 110);
+  TH1F * ho_cosmic_timing_dtFired     = makeTH1F("ho_cosmic_timing_dtFired"    , 100, 0, 10);
+  TH1F * ho_cosmic_timing_hoFired     = makeTH1F("ho_cosmic_timing_hoFired"    , 100, 0, 10);
+  TH1F * ho_cosmic_timing_hodtFired   = makeTH1F("ho_cosmic_timing_hodtFired"  , 100, 0, 10);
 
-  TH1F * hbhe_cosmic_timing_dtFired   = makeTH1F("hbhe_cosmic_timing_dtFired"  , 210, -100, 110);
-  TH1F * hbhe_cosmic_timing_hoFired   = makeTH1F("hbhe_cosmic_timing_hoFired"  , 210, -100, 110);
-  TH1F * hbhe_cosmic_timing_hodtFired = makeTH1F("hbhe_cosmic_timing_hodtFired", 210, -100, 110);
+  TH1F * ho_cosmic_rhtiming_dtFired     = makeTH1F("ho_cosmic_rhtiming_dtFired"    , 200, -100, 100);
+  TH1F * ho_cosmic_rhtiming_hoFired     = makeTH1F("ho_cosmic_rhtiming_hoFired"    , 200, -100, 100);
+  TH1F * ho_cosmic_rhtiming_hodtFired   = makeTH1F("ho_cosmic_rhtiming_hodtFired"  , 200, -100, 100);
+
+  TH1F * ho_top_cosmic_timing_dtFired     = makeTH1F("ho_top_cosmic_timing_dtFired"    , 100, 0, 10);
+  TH1F * ho_top_cosmic_timing_hoFired     = makeTH1F("ho_top_cosmic_timing_hoFired"    , 100, 0, 10);
+  TH1F * ho_top_cosmic_timing_hodtFired   = makeTH1F("ho_top_cosmic_timing_hodtFired"  , 100, 0, 10);
+
+  TH1F * ho_bot_cosmic_timing_dtFired     = makeTH1F("ho_bot_cosmic_timing_dtFired"    , 100, 0, 10);
+  TH1F * ho_bot_cosmic_timing_hoFired     = makeTH1F("ho_bot_cosmic_timing_hoFired"    , 100, 0, 10);
+  TH1F * ho_bot_cosmic_timing_hodtFired   = makeTH1F("ho_bot_cosmic_timing_hodtFired"  , 100, 0, 10);
+
+  TH1F * hbhe_cosmic_timing_dtFired   = makeTH1F("hbhe_cosmic_timing_dtFired"  , 100, 0, 10);
+  TH1F * hbhe_cosmic_timing_hoFired   = makeTH1F("hbhe_cosmic_timing_hoFired"  , 100, 0, 10);
+  TH1F * hbhe_cosmic_timing_hodtFired = makeTH1F("hbhe_cosmic_timing_hodtFired", 100, 0, 10);
 
   TH1F * ho_cosmic_energy_dtFired     = makeTH1F("ho_cosmic_energy_dtFired"    , 100, 0, 10);
   TH1F * ho_cosmic_energy_hoFired     = makeTH1F("ho_cosmic_energy_hoFired"    , 100, 0, 10);
@@ -107,9 +123,35 @@ void analysisClass::loop(){
   TH2F * hbhe_cosmic_occupancy_depth3_hoFired   = makeTH2F("hbhe_cosmic_occupancy_depth3_hoFired"  , 59, -29.5, 29.5, 72, 0.5, 72.5 );
   TH2F * hbhe_cosmic_occupancy_depth3_hodtFired = makeTH2F("hbhe_cosmic_occupancy_depth3_hodtFired", 59, -29.5, 29.5, 72, 0.5, 72.5 );
 
+  TH2F * hbhe_cosmic_phi_vs_timing_depth1_dtFired   = makeTH2F("hbhe_cosmic_phi_vs_timing_depth1_dtFired"  , 72, -3.1416, 3.1416, 300, -10., 20. );
+  TH2F * hbhe_cosmic_phi_vs_timing_depth1_hoFired   = makeTH2F("hbhe_cosmic_phi_vs_timing_depth1_hoFired"  , 72, -3.1416, 3.1416, 300, -10., 20. );
+  TH2F * hbhe_cosmic_phi_vs_timing_depth1_hodtFired = makeTH2F("hbhe_cosmic_phi_vs_timing_depth1_hodtFired", 72, -3.1416, 3.1416, 300, -10., 20. );
+
+  TH2F * hbhe_cosmic_phi_vs_timing_depth2_dtFired   = makeTH2F("hbhe_cosmic_phi_vs_timing_depth2_dtFired"  , 72, -3.1416, 3.1416, 300, -10., 20. );
+  TH2F * hbhe_cosmic_phi_vs_timing_depth2_hoFired   = makeTH2F("hbhe_cosmic_phi_vs_timing_depth2_hoFired"  , 72, -3.1416, 3.1416, 300, -10., 20. );
+  TH2F * hbhe_cosmic_phi_vs_timing_depth2_hodtFired = makeTH2F("hbhe_cosmic_phi_vs_timing_depth2_hodtFired", 72, -3.1416, 3.1416, 300, -10., 20. );
+
+  TH2F * hbhe_cosmic_phi_vs_timing_depth3_dtFired   = makeTH2F("hbhe_cosmic_phi_vs_timing_depth3_dtFired"  , 72, -3.1416, 3.1416, 300, -10., 20. );
+  TH2F * hbhe_cosmic_phi_vs_timing_depth3_hoFired   = makeTH2F("hbhe_cosmic_phi_vs_timing_depth3_hoFired"  , 72, -3.1416, 3.1416, 300, -10., 20. );
+  TH2F * hbhe_cosmic_phi_vs_timing_depth3_hodtFired = makeTH2F("hbhe_cosmic_phi_vs_timing_depth3_hodtFired", 72, -3.1416, 3.1416, 300, -10., 20. );
+
+
   TH2F * ho_cosmic_occupancy_dtFired     = makeTH2F("ho_cosmic_occupancy_dtFired"    , 31, -15.5, 15.5, 72, 0.5, 72.5 );
   TH2F * ho_cosmic_occupancy_hoFired     = makeTH2F("ho_cosmic_occupancy_hoFired"    , 31, -15.5, 15.5, 72, 0.5, 72.5 );
   TH2F * ho_cosmic_occupancy_hodtFired   = makeTH2F("ho_cosmic_occupancy_hodtFired"  , 31, -15.5, 15.5, 72, 0.5, 72.5 );
+  
+  TH2F * ho_cosmic_occupancy_badRHTiming_dtFired     = makeTH2F("ho_cosmic_occupancy_badRHTiming_dtFired"    , 31, -15.5, 15.5, 72, 0.5, 72.5 );
+  TH2F * ho_cosmic_occupancy_badRHTiming_hoFired     = makeTH2F("ho_cosmic_occupancy_badRHTiming_hoFired"    , 31, -15.5, 15.5, 72, 0.5, 72.5 );
+  TH2F * ho_cosmic_occupancy_badRHTiming_hodtFired   = makeTH2F("ho_cosmic_occupancy_badRHTiming_hodtFired"  , 31, -15.5, 15.5, 72, 0.5, 72.5 );
+  
+  TH2F * ho_cosmic_phi_vs_timing_dtFired     = makeTH2F("ho_cosmic_phi_vs_timing_dtFired"    , 72, -3.1416, 3.1416, 300, -10., 20. );
+  TH2F * ho_cosmic_phi_vs_timing_hoFired     = makeTH2F("ho_cosmic_phi_vs_timing_hoFired"    , 72, -3.1416, 3.1416, 300, -10., 20. );
+  TH2F * ho_cosmic_phi_vs_timing_hodtFired   = makeTH2F("ho_cosmic_phi_vs_timing_hodtFired"  , 72, -3.1416, 3.1416, 300, -10., 20. );
+  
+
+  TH2F * ho_cosmic_occuTiming_dtFired     = makeTH2F("ho_cosmic_occuTiming_dtFired"    , 31, -15.5, 15.5, 72, 0.5, 72.5 );
+  TH2F * ho_cosmic_occuTiming_hoFired     = makeTH2F("ho_cosmic_occuTiming_hoFired"    , 31, -15.5, 15.5, 72, 0.5, 72.5 );
+  TH2F * ho_cosmic_occuTiming_hodtFired   = makeTH2F("ho_cosmic_occuTiming_hodtFired"  , 31, -15.5, 15.5, 72, 0.5, 72.5 );
   
   //--------------------------------------------------------------------------------
   // Trigger names
@@ -178,6 +220,11 @@ void analysisClass::loop(){
 	if (hbheDigi.depth() == 1 ) hbhe_cosmic_occupancy_depth1_hoFired -> Fill ( hbheDigi.ieta(), hbheDigi.iphi());
 	if (hbheDigi.depth() == 2 ) hbhe_cosmic_occupancy_depth2_hoFired -> Fill ( hbheDigi.ieta(), hbheDigi.iphi());
 	if (hbheDigi.depth() == 3 ) hbhe_cosmic_occupancy_depth3_hoFired -> Fill ( hbheDigi.ieta(), hbheDigi.iphi());
+
+	if (hbheDigi.depth() == 1 ) hbhe_cosmic_phi_vs_timing_depth1_hoFired -> Fill ( hbheDigi.phi(), hbheDigi.time());
+	if (hbheDigi.depth() == 2 ) hbhe_cosmic_phi_vs_timing_depth2_hoFired -> Fill ( hbheDigi.phi(), hbheDigi.time());
+	if (hbheDigi.depth() == 3 ) hbhe_cosmic_phi_vs_timing_depth3_hoFired -> Fill ( hbheDigi.phi(), hbheDigi.time());
+
       }
 
       if ( dt_trigger_fired && !ho_trigger_fired ) {
@@ -187,6 +234,10 @@ void analysisClass::loop(){
 	if (hbheDigi.depth() == 1 ) hbhe_cosmic_occupancy_depth1_dtFired -> Fill ( hbheDigi.ieta(), hbheDigi.iphi());
 	if (hbheDigi.depth() == 2 ) hbhe_cosmic_occupancy_depth2_dtFired -> Fill ( hbheDigi.ieta(), hbheDigi.iphi());
 	if (hbheDigi.depth() == 3 ) hbhe_cosmic_occupancy_depth3_dtFired -> Fill ( hbheDigi.ieta(), hbheDigi.iphi());
+
+	if (hbheDigi.depth() == 1 ) hbhe_cosmic_phi_vs_timing_depth1_dtFired -> Fill ( hbheDigi.phi(), hbheDigi.time());
+	if (hbheDigi.depth() == 2 ) hbhe_cosmic_phi_vs_timing_depth2_dtFired -> Fill ( hbheDigi.phi(), hbheDigi.time());
+	if (hbheDigi.depth() == 3 ) hbhe_cosmic_phi_vs_timing_depth3_dtFired -> Fill ( hbheDigi.phi(), hbheDigi.time());
       }
       
       if ( dt_trigger_fired &&  ho_trigger_fired ) {
@@ -196,6 +247,11 @@ void analysisClass::loop(){
 	if (hbheDigi.depth() == 1 ) hbhe_cosmic_occupancy_depth1_hodtFired -> Fill ( hbheDigi.ieta(), hbheDigi.iphi());
 	if (hbheDigi.depth() == 2 ) hbhe_cosmic_occupancy_depth2_hodtFired -> Fill ( hbheDigi.ieta(), hbheDigi.iphi());
 	if (hbheDigi.depth() == 3 ) hbhe_cosmic_occupancy_depth3_hodtFired -> Fill ( hbheDigi.ieta(), hbheDigi.iphi());
+
+
+	if (hbheDigi.depth() == 1 ) hbhe_cosmic_phi_vs_timing_depth1_hodtFired -> Fill ( hbheDigi.phi(), hbheDigi.time());
+	if (hbheDigi.depth() == 2 ) hbhe_cosmic_phi_vs_timing_depth2_hodtFired -> Fill ( hbheDigi.phi(), hbheDigi.time());
+	if (hbheDigi.depth() == 3 ) hbhe_cosmic_phi_vs_timing_depth3_hodtFired -> Fill ( hbheDigi.phi(), hbheDigi.time());
       }
     }
 
@@ -211,24 +267,44 @@ void analysisClass::loop(){
       HOCosmicDigi hoDigi = hoDigis -> GetConstituent<HOCosmicDigi>(iHO);
       
       if ( ho_trigger_fired && !dt_trigger_fired ) {
+	ho_cosmic_rhtiming_hoFired -> Fill ( hoDigi.recHitTime() );
 	ho_cosmic_energy_hoFired   -> Fill ( hoDigi.energy() );
 	ho_cosmic_timing_hoFired   -> Fill ( hoDigi.time()   );
 	ho_cosmic_energy_vs_timing_hoFired -> Fill ( hoDigi.energy(), hoDigi.time() );
 	ho_cosmic_occupancy_hoFired -> Fill ( hoDigi.ieta(), hoDigi.iphi());
+	ho_cosmic_phi_vs_timing_hoFired -> Fill ( hoDigi.phi(), hoDigi.time());
+	ho_cosmic_occuTiming_hoFired -> Fill ( hoDigi.ieta(), hoDigi.iphi(), hoDigi.time() );
+	if ( hoDigi.recHitTime() < -94 ) ho_cosmic_occupancy_badRHTiming_hoFired -> Fill ( hoDigi.phi(), hoDigi.time());
+	if ( hoDigi.phi() > 0 ) ho_top_cosmic_timing_hoFired -> Fill ( hoDigi.time() );
+	else                    ho_bot_cosmic_timing_hoFired -> Fill ( hoDigi.time() );
+
       }
 
       if ( dt_trigger_fired && !ho_trigger_fired ) {
+	ho_cosmic_rhtiming_dtFired -> Fill ( hoDigi.recHitTime() );
 	ho_cosmic_energy_dtFired   -> Fill ( hoDigi.energy() );
 	ho_cosmic_timing_dtFired   -> Fill ( hoDigi.time()   );
 	ho_cosmic_energy_vs_timing_dtFired -> Fill ( hoDigi.energy(), hoDigi.time() );
 	ho_cosmic_occupancy_dtFired -> Fill ( hoDigi.ieta(), hoDigi.iphi());
+	ho_cosmic_phi_vs_timing_dtFired -> Fill ( hoDigi.phi(), hoDigi.time());
+	ho_cosmic_occuTiming_dtFired -> Fill ( hoDigi.ieta(), hoDigi.iphi(), hoDigi.time() );
+	if ( hoDigi.recHitTime() < -94 ) ho_cosmic_occupancy_badRHTiming_dtFired -> Fill ( hoDigi.phi(), hoDigi.time());
+	if ( hoDigi.phi() > 0 ) ho_top_cosmic_timing_dtFired -> Fill ( hoDigi.time() );
+	else                    ho_bot_cosmic_timing_dtFired -> Fill ( hoDigi.time() );
+
       }
       
       if ( dt_trigger_fired &&  ho_trigger_fired ) {
+	ho_cosmic_rhtiming_hodtFired -> Fill ( hoDigi.recHitTime() );
 	ho_cosmic_energy_hodtFired -> Fill ( hoDigi.energy() );
 	ho_cosmic_timing_hodtFired -> Fill ( hoDigi.time()   );
 	ho_cosmic_energy_vs_timing_hodtFired -> Fill ( hoDigi.energy(), hoDigi.time() );
 	ho_cosmic_occupancy_hodtFired -> Fill ( hoDigi.ieta(), hoDigi.iphi());
+	ho_cosmic_phi_vs_timing_hodtFired -> Fill ( hoDigi.phi(), hoDigi.time());
+	ho_cosmic_occuTiming_hodtFired -> Fill ( hoDigi.ieta(), hoDigi.iphi(), hoDigi.time() );
+	if ( hoDigi.recHitTime() < -94 ) ho_cosmic_occupancy_badRHTiming_hodtFired -> Fill ( hoDigi.phi(), hoDigi.time());
+	if ( hoDigi.phi() > 0 ) ho_top_cosmic_timing_hodtFired -> Fill ( hoDigi.time() );
+	else                    ho_bot_cosmic_timing_hodtFired -> Fill ( hoDigi.time() );
       }
       
     }
