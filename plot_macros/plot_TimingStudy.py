@@ -4,6 +4,8 @@ import copy
 r.gStyle.SetOptStat(0)
 r.gStyle.SetOptTitle(0)
 
+outFileName = "~/www/hcal/ExpressCosmics_EMapUpdated_237068/HcalRecHit.pdf"
+
 variables = [
     "ho_cosmic_timing",
     "hbhe_cosmic_timing",
@@ -20,8 +22,8 @@ triggers = [
 ]
 
 d_variable_title = {
-    "ho_cosmic_timing"  : "Timing of HO RecHits with muon hit",
-    "hbhe_cosmic_timing": "Timing of HBHE RecHits with muon hit",
+    "ho_cosmic_timing"  : "Timing of HO DigiHits with muon hit",
+    "hbhe_cosmic_timing": "Timing of HBHE DigiHits with muon hit",
     "ho_cosmic_energy"  : "Energy of HO RecHits with muon hit",
     "hbhe_cosmic_energy": "Energy of HBHE RecHits with muon hit",
     "ho_cosmic_recHitTiming": "RecHit Timing of HO RecHits with muon hit",
@@ -31,19 +33,19 @@ d_variable_title = {
 d_variable_xaxisTitle = {
     "ho_cosmic_timing"  : "HO DigiHit timing [25 ns]",
     "hbhe_cosmic_timing": "HBHE DigiHit timing [25 ns]",
-    "ho_cosmic_energy"  : "HO DigiHit energy [GeV]",
-    "hbhe_cosmic_energy": "HBHE DigiHit energy [GeV]",
+    "ho_cosmic_energy"  : "HO RecHits energy [GeV]",
+    "hbhe_cosmic_energy": "HBHE RecHits energy [GeV]",
     "ho_cosmic_recHitTiming": "HO RecHit timing [25 ns]",
     "hbhe_cosmic_recHitTiming": "HBHE RecHit timing [25 ns]",
 }
 
 yaxisTitle = "A.U. [unit-normalized]"
 
-hcal_file = r.TFile("output.root")
-dt_file   = r.TFile("output.root")
+hcal_file = r.TFile("ExpressCosmics_EMapUpdated.root")
+dt_file   = r.TFile("ExpressCosmics_EMapUpdated.root")
 
 canvas = r.TCanvas();
-canvas.Print("output.pdf[")
+canvas.Print(outFileName+"[")
 
 for variable in variables:
     
@@ -158,7 +160,7 @@ for variable in variables:
     # l.AddEntry(hoSolo_fired_hist, "HO = yes", "lf")
     l.Draw();
 
-    canvas.SaveAs(variable + ".pdf") 
-    canvas.Print("output.pdf")
+    # canvas.SaveAs(variable + ".pdf") 
+    canvas.Print(outFileName)
 
-canvas.Print("output.pdf]")
+canvas.Print(outFileName+"]")
