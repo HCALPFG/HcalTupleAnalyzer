@@ -8,6 +8,7 @@ HOCosmicDigi::HOCosmicDigi(Collection& c, unsigned short i, short j ):
 
 float HOCosmicDigi::energy    () {return m_collection -> GetData() -> HOCosmicDigiRecEnergy  -> at(m_raw_index);}
 float HOCosmicDigi::recHitTime() {return m_collection -> GetData() -> HOCosmicDigiRecTime    -> at(m_raw_index);}
+float HOCosmicDigi::phi 	  () {return m_collection -> GetData() -> HOCosmicDigiPhi 	 	 -> at(m_raw_index);}
 int   HOCosmicDigi::ieta      () {return m_collection -> GetData() -> HOCosmicDigiIEta       -> at(m_raw_index);}
 int   HOCosmicDigi::iphi      () {return m_collection -> GetData() -> HOCosmicDigiIPhi       -> at(m_raw_index);}
 int   HOCosmicDigi::depth     () {return m_collection -> GetData() -> HOCosmicDigiDepth      -> at(m_raw_index);}

@@ -8,6 +8,7 @@ HBHECosmicDigi::HBHECosmicDigi(Collection& c, unsigned short i, short j ):
 
 float HBHECosmicDigi::energy    () {return m_collection -> GetData() -> HBHECosmicDigiRecEnergy  -> at(m_raw_index);}
 float HBHECosmicDigi::recHitTime() {return m_collection -> GetData() -> HBHECosmicDigiRecTime    -> at(m_raw_index);}
+float HBHECosmicDigi::phi 		() {return m_collection -> GetData() -> HBHECosmicDigiPhi 		 -> at(m_raw_index);}
 int   HBHECosmicDigi::ieta      () {return m_collection -> GetData() -> HBHECosmicDigiIEta       -> at(m_raw_index);}
 int   HBHECosmicDigi::iphi      () {return m_collection -> GetData() -> HBHECosmicDigiIPhi       -> at(m_raw_index);}
 int   HBHECosmicDigi::depth     () {return m_collection -> GetData() -> HBHECosmicDigiDepth      -> at(m_raw_index);}

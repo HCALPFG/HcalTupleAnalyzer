@@ -12,6 +12,7 @@ class HOCosmicDigi : public HcalDigi {
   
   float energy() ;
   float recHitTime  () ;
+  float phi();
   int   ieta  () ;
   int   iphi  () ;
   int   depth () ;
