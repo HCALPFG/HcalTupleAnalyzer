@@ -76,6 +76,20 @@ void analysisClass::loop(){
   //--------------------------------------------------------------------------------
 
 //===============================
+// ieta Plot
+//===============================
+  TH1F * hbhe_cosmic_ieta_dtFired = makeTH1F("hbhe_cosmic_ieta_dtFired",81,-40.5,40.5); 
+  
+  // Special Plot for validation	  
+  TH1F * hbhe_cosmic_ieta_minusphi_TimingPlus20To5_dtFired = makeTH1F("hbhe_cosmic_ieta_minusphi_TimingPlus20To5_dtFired",81,-40.5,40.5);
+  TH1F * hbhe_cosmic_ieta_minusphi_TimingMinus20To5_dtFired = makeTH1F("hbhe_cosmic_ieta_minusphi_TimingMinus20To5_dtFired",81,-40.5,40.5);
+  TH1F * hbhe_cosmic_ieta_plusphi_TimingMinus25ToMinus15_dtFired = makeTH1F("hbhe_cosmic_ieta_plusphi_TimingMinus25ToMinus15_dtFired",81,-40.5,40.5);
+  TH1F * hbhe_cosmic_ieta_plusphi_TimingMinus15To5_dtFired = makeTH1F("hbhe_cosmic_ieta_plusphi_TimingMinus15To5_dtFired",81,-40.5,40.5);
+  TH1F * hbhe_cosmic_ieta_plusphi_TimingMinus40ToMinus25_dtFired = makeTH1F("hbhe_cosmic_ieta_plusphi_TimingMinus40ToMinus25_dtFired",81,-40.5,40.5);
+  TH1F * hbhe_cosmic_ieta_plusphi_TimingMinus25To5_dtFired = makeTH1F("hbhe_cosmic_ieta_plusphi_TimingMinus25To5_dtFired",81,-40.5,40.5);
+
+
+//===============================
 // Timing Plot
 //===============================
 
@@ -186,6 +200,10 @@ void analysisClass::loop(){
   TH2F * ho_cosmic_iphi_vs_recHitTiming_dtFired = makeTH2F("ho_cosmic_iphi_vs_recHitTiming_dtFired", 72, 0.5, 72.5 , 200, -100, 100 );
   TH2F * ho_cosmic_iphi_vs_recHitTiming_hoFired = makeTH2F("ho_cosmic_iphi_vs_recHitTiming_hoFired", 72, 0.5, 72.5 , 200, -100, 100 );
   TH2F * ho_cosmic_iphi_vs_recHitTiming_hodtFired = makeTH2F("ho_cosmic_iphi_vs_recHitTiming_hodtFired", 72, 0.5, 72.5 , 200, -100, 100 );
+
+  // Special Plots for validation
+  TH2F * hbhe_cosmic_recHitTiming_vs_iphi_minusphi_dtFired = makeTH2F("ho_cosmic_recHitTiming_vs_iphi_minusphi_dtFired", 200, -100, 100, 72, 0.5, 72.5 );
+  TH2F * hbhe_cosmic_recHitTiming_vs_iphi_plusphi_dtFired = makeTH2F("ho_cosmic_recHitTiming_vs_iphi_plusphi_dtFired",200, -100, 100, 72, 0.5, 72.5 );
 
 //===============================
 // phi vs DigiTiming Plot
@@ -354,8 +372,6 @@ void analysisClass::loop(){
   if (hbheDigi.depth() == 2 ) hbhe_cosmic_phi_vs_recHitTiming_depth2_hoFired -> Fill ( hbheDigi.phi(), hbheDigi.recHitTime());
   if (hbheDigi.depth() == 3 ) hbhe_cosmic_phi_vs_recHitTiming_depth3_hoFired -> Fill ( hbheDigi.phi(), hbheDigi.recHitTime());
 
-  hbhe_cosmic_timing_recTiming_hoFired -> Fill(hbheDigi.time(),hbheDigi.recHitTime());
-  
   for (int i=0; i<hbheDigi.size(); i++){
     hbhe_cosmic_timestamp_fc_hoFired -> Fill(i,hbheDigi.fc(i));
     if (hbheDigi.time()<0.5){
@@ -389,6 +405,43 @@ void analysisClass::loop(){
   if (hbheDigi.depth() == 3 ) hbhe_cosmic_phi_vs_recHitTiming_depth3_dtFired -> Fill ( hbheDigi.phi(), hbheDigi.recHitTime());
 
   hbhe_cosmic_timing_recTiming_dtFired -> Fill(hbheDigi.time(),hbheDigi.recHitTime());
+
+
+  // Validation Plots
+  hbhe_cosmic_ieta_dtFired -> Fill(hbheDigi.ieta());
+
+  if ((hbheDigi.phi() < 0) and (hbheDigi.recHitTime() < 20.) and (hbheDigi.recHitTime() > 5.)) {
+    hbhe_cosmic_ieta_minusphi_TimingPlus20To5_dtFired->Fill(hbheDigi.ieta());
+  };
+
+  if ((hbheDigi.phi() < 0) and (hbheDigi.recHitTime() > -20.) and (hbheDigi.recHitTime() < 5.)) {
+    hbhe_cosmic_ieta_minusphi_TimingMinus20To5_dtFired->Fill(hbheDigi.ieta());
+  };
+  if ((hbheDigi.phi() > 0) and (hbheDigi.recHitTime() < 5.) and (hbheDigi.recHitTime() > -15.)) {
+    hbhe_cosmic_ieta_plusphi_TimingMinus15To5_dtFired->Fill(hbheDigi.ieta());
+  };
+
+ if ((hbheDigi.phi() > 0) and (hbheDigi.recHitTime() < -15.) and (hbheDigi.recHitTime() > -25.)) {
+    hbhe_cosmic_ieta_plusphi_TimingMinus25ToMinus15_dtFired->Fill(hbheDigi.ieta());
+  };
+
+ if ((hbheDigi.phi() > 0) and (hbheDigi.recHitTime() < -25.) and (hbheDigi.recHitTime() > -40.)) {
+    hbhe_cosmic_ieta_plusphi_TimingMinus40ToMinus25_dtFired->Fill(hbheDigi.ieta());
+  };
+
+ if ((hbheDigi.phi() > 0) and (hbheDigi.recHitTime() > -25.) and (hbheDigi.recHitTime() < 5.)) {
+    hbhe_cosmic_ieta_plusphi_TimingMinus25To5_dtFired->Fill(hbheDigi.ieta());
+  };
+
+ if (hbheDigi.phi() < 0.){
+    hbhe_cosmic_recHitTiming_vs_iphi_minusphi_dtFired -> Fill(hbheDigi.recHitTime(),hbheDigi.iphi());
+ };
+
+ if (hbheDigi.phi() > 0.){
+    hbhe_cosmic_recHitTiming_vs_iphi_plusphi_dtFired -> Fill(hbheDigi.recHitTime(),hbheDigi.iphi());
+ };
+  
+ //
 
   for (int i=0; i<hbheDigi.size(); i++){
     hbhe_cosmic_timestamp_fc_dtFired -> Fill(i,hbheDigi.fc(i));
