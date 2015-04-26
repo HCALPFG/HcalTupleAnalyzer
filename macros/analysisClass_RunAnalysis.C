@@ -100,9 +100,23 @@ void analysisClass::loop(){
       std::map < std::string, TH2F* > HistosForEachRun;
       HistosForEachRun["HBHE_RecHitTimingVsIphi_plusPhi"] = makeTH2F(("HBHE_RecHitTimingVsIphi_plusPhi_"+std::to_string(RunNumber)).c_str(), 200,-100,100,72, 0.5, 72.5  );
       HistosForEachRun["HBHE_RecHitTimingVsIphi_plusPhi"] -> SetTitle( ("#phi > 0, Run Number "+std::to_string(RunNumber)+" ; RecHit Timing  ; i#phi ").c_str() ); 
-      
       HistosForEachRun["HBHE_RecHitTimingVsIphi_minusPhi"] = makeTH2F(("HBHE_RecHitTimingVsIphi_minusPhi_"+std::to_string(RunNumber)).c_str(), 200,-100,100,72, 0.5, 72.5   );
       HistosForEachRun["HBHE_RecHitTimingVsIphi_minusPhi"] -> SetTitle( ("#phi < 0, Run Number "+std::to_string(RunNumber)+" ; RecHit Timing  ; i#phi ").c_str() ); 
+
+      HistosForEachRun["HBHEa_RecHitTimingVsIphi_plusPhi"] = makeTH2F(("HBHEa_RecHitTimingVsIphi_plusPhi_"+std::to_string(RunNumber)).c_str(), 200,-100,100,72, 0.5, 72.5  );
+      HistosForEachRun["HBHEa_RecHitTimingVsIphi_plusPhi"] -> SetTitle( ("HBHEa, #phi > 0, Run Number "+std::to_string(RunNumber)+" ; RecHit Timing  ; i#phi ").c_str()  );
+      HistosForEachRun["HBHEa_RecHitTimingVsIphi_minusPhi"] = makeTH2F(("HBHEa_RecHitTimingVsIphi_minusPhi_"+std::to_string(RunNumber)).c_str(), 200,-100,100,72, 0.5, 72.5  );
+      HistosForEachRun["HBHEa_RecHitTimingVsIphi_minusPhi"] -> SetTitle( ("HBHEa, #phi < 0, Run Number "+std::to_string(RunNumber)+" ; RecHit Timing  ; i#phi ").c_str()  );
+
+      HistosForEachRun["HBHEb_RecHitTimingVsIphi_plusPhi"] = makeTH2F(("HBHEb_RecHitTimingVsIphi_plusPhi_"+std::to_string(RunNumber)).c_str(), 200,-100,100,72, 0.5, 72.5  );
+      HistosForEachRun["HBHEb_RecHitTimingVsIphi_plusPhi"] -> SetTitle( ("HBHEb, #phi > 0, Run Number "+std::to_string(RunNumber)+" ; RecHit Timing  ; i#phi ").c_str()  );
+      HistosForEachRun["HBHEb_RecHitTimingVsIphi_minusPhi"] = makeTH2F(("HBHEb_RecHitTimingVsIphi_minusPhi_"+std::to_string(RunNumber)).c_str(), 200,-100,100,72, 0.5, 72.5  );
+      HistosForEachRun["HBHEb_RecHitTimingVsIphi_minusPhi"] -> SetTitle( ("HBHEb, #phi < 0, Run Number "+std::to_string(RunNumber)+" ; RecHit Timing  ; i#phi ").c_str()  );
+      
+      HistosForEachRun["HBHEc_RecHitTimingVsIphi_plusPhi"] = makeTH2F(("HBHEc_RecHitTimingVsIphi_plusPhi_"+std::to_string(RunNumber)).c_str(), 200,-100,100,72, 0.5, 72.5  );
+      HistosForEachRun["HBHEc_RecHitTimingVsIphi_plusPhi"] -> SetTitle( ("HBHEc, #phi > 0, Run Number "+std::to_string(RunNumber)+" ; RecHit Timing  ; i#phi ").c_str()  );
+      HistosForEachRun["HBHEc_RecHitTimingVsIphi_minusPhi"] = makeTH2F(("HBHEc_RecHitTimingVsIphi_minusPhi_"+std::to_string(RunNumber)).c_str(), 200,-100,100,72, 0.5, 72.5  );
+      HistosForEachRun["HBHEc_RecHitTimingVsIphi_minusPhi"] -> SetTitle( ("HBHEc, #phi < 0, Run Number "+std::to_string(RunNumber)+" ; RecHit Timing  ; i#phi ").c_str()  );
       
       HistosTH2.insert( std::pair< int, std::map< std::string ,TH2F* > > ( RunNumber, HistosForEachRun) );
     };
@@ -132,9 +146,37 @@ void analysisClass::loop(){
        if (hbheDigi.phi() > 0.){
          HistosTH2[RunNumber]["HBHE_RecHitTimingVsIphi_plusPhi"] -> Fill( hbheDigi.recHitTime(),hbheDigi.iphi()  );
        };
+
        if (hbheDigi.phi() < 0.){
          HistosTH2[RunNumber]["HBHE_RecHitTimingVsIphi_minusPhi"] -> Fill( hbheDigi.recHitTime(),hbheDigi.iphi()  );
        };
+
+      if ( (hbheDigi.iphi() >= 3 ) and (hbheDigi.iphi() <= 26) and (hbheDigi.phi() > 0. ) ){
+        HistosTH2[RunNumber]["HBHEa_RecHitTimingVsIphi_plusPhi"] -> Fill( hbheDigi.recHitTime(),hbheDigi.iphi()  );
+      };
+      
+      if ( (hbheDigi.iphi() >= 3 ) and (hbheDigi.iphi() <= 26) and (hbheDigi.phi() < 0. ) ){
+        HistosTH2[RunNumber]["HBHEa_RecHitTimingVsIphi_minusPhi"] -> Fill( hbheDigi.recHitTime(),hbheDigi.iphi()  );
+      };
+
+      if ( (hbheDigi.iphi() >= 27 ) and (hbheDigi.iphi() <= 50) and (hbheDigi.phi() > 0. ) ){
+        HistosTH2[RunNumber]["HBHEb_RecHitTimingVsIphi_plusPhi"] -> Fill( hbheDigi.recHitTime(),hbheDigi.iphi()  );
+      };
+      
+      if ( (hbheDigi.iphi() >= 27 ) and (hbheDigi.iphi() <= 50) and (hbheDigi.phi() < 0. ) ){
+        HistosTH2[RunNumber]["HBHEb_RecHitTimingVsIphi_minusPhi"] -> Fill( hbheDigi.recHitTime(),hbheDigi.iphi()  );
+      };
+
+      if ( (hbheDigi.iphi() >= 1 ) and (hbheDigi.iphi() <= 2) and (hbheDigi.phi() > 0. ) ){
+        HistosTH2[RunNumber]["HBHEc_RecHitTimingVsIphi_plusPhi"] -> Fill( hbheDigi.recHitTime(),hbheDigi.iphi()  );
+      };
+      
+      if ( (hbheDigi.iphi() >= 1 ) and (hbheDigi.iphi() <= 2) and (hbheDigi.phi() < 0. ) ){
+        HistosTH2[RunNumber]["HBHEc_RecHitTimingVsIphi_minusPhi"] -> Fill( hbheDigi.recHitTime(),hbheDigi.iphi()  );
+      };
+
+      
+
     };
     
 
