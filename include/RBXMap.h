@@ -49,7 +49,7 @@ class RBXMap {
   
  private:
 
-  long getHash  (int det_int           , int side, int ieta, int iphi, int depth );
+  long getHash  (int det_int            , int side, int ieta, int iphi, int depth );
   long getHash  (const std::string & det, int side, int ieta, int iphi, int depth );
   int getDetInt (const std::string & det);
   

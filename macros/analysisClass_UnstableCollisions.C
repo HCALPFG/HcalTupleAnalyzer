@@ -31,12 +31,10 @@ void analysisClass::loop(){
   
   tuple_tree -> fChain -> SetBranchStatus("*"               , kFALSE);
 
-  
   tuple_tree -> fChain -> SetBranchStatus("HLTKey", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HLTInsideDatasetTriggerNames", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HLTInsideDatasetTriggerDecisions", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HLTInsideDatasetTriggerPrescales", kTRUE);
-
 
   tuple_tree -> fChain -> SetBranchStatus("run", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("event", kTRUE);
@@ -46,25 +44,25 @@ void analysisClass::loop(){
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRecTime", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIEta", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIPhi", kTRUE);
+  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiEta", kTRUE);
+  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiPhi", kTRUE);
+  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiZ", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiDepth", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiSubdet", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRawID", kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiPresamples", kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiSize", kTRUE);
 
   //--------------------------------------------------------------------------------
   // Make histograms
   //--------------------------------------------------------------------------------
 
-  std::map<int, TH1F*> m_hbhe_id_to_timing;
-  std::map<std::string, TH1F*> m_rbx_to_timing;
-
   TH1F * h_ls = makeTH1F("lumiSection", 600, 0, 150);
   TH1F * h_energy = makeTH1F( "energy", 1000, 0, 50);
   TH1F * h_time = makeTH1F( "time", 200, -100, 100);
-  TH1F * h_time_HBHEa = makeTH1F( "time_HBHEa", 200, -100, 100);
-  TH1F * h_time_HBHEb = makeTH1F( "time_HBHEb", 200, -100, 100);
-  TH1F * h_time_HBHEc = makeTH1F( "time_HBHEc", 200, -100, 100);
+  TH1F * h_time_diff = makeTH1F( "time_diff", 200, -100, 100);
+  TH2F * h_time_vs_eta = makeTH2F( "time_vs_eta", 100, -20, 20, 100, -5, 5);
+  TH2F * h_time_vs_z = makeTH2F( "time_vs_z", 100, -20, 20, 100, -500, 500);
+  TH2F * h_time_vs_energy = makeTH2F( "time_vs_energy", 100, -20, 20, 100, -5, 45);
+  
   TH1F * h_bcn = makeTH1F("bcn", 300, 0.5, 300.5);
   std::vector<TH2F*> h_occupancy (5);
 
@@ -81,12 +79,11 @@ void analysisClass::loop(){
   for (int i = 0; i < n_events; ++i){
     
     tuple_tree -> GetEntry(i);
-    if ( (i + 1) % 100 == 0 ) std::cout << "Processing event " << i + 1 << "/" << n_events << std::endl;
+    if ( (i + 1) % 1000 == 0 ) std::cout << "Processing event " << i + 1 << "/" << n_events << std::endl;
 
     h_ls -> Fill ( tuple_tree -> ls );
     h_bcn -> Fill ( tuple_tree -> bcn );
 
-    
     //-----------------------------------------------------------------
     // Did the trigger fire?
     //-----------------------------------------------------------------
@@ -103,31 +100,27 @@ void analysisClass::loop(){
     CollectionPtr hbheDigis (new Collection(*tuple_tree, tuple_tree -> HBHEDigiIEta -> size()));
     
     int nHBHEDigis = hbheDigis -> GetSize();
-    std::map<int, TH1F*>::iterator it;
-    std::map<std::string, TH1F*>::iterator it_rbx;
-    std::string rbx_name;
-    
     
     for (int iHBHEDigi = 0; iHBHEDigi < nHBHEDigis; ++iHBHEDigi){
       HBHEDigi hbheDigi = hbheDigis -> GetConstituent<HBHEDigi>(iHBHEDigi);
       if ( hbheDigi.energy() < 5.0 ) continue;
+      if ( hbheDigi.iphi() == 2 && hbheDigi.ieta() < 0) continue;
+
+
+      double t_expected_splash = 0.031 * hbheDigi.z() + 0.22;
+      double t_observed = hbheDigi.recHitTime();
+      double t_diff = t_observed - t_expected_splash;
       
-      rbx_name = map.getRBXString ( hbheDigi.subdet(), hbheDigi.ieta() / abs(hbheDigi.ieta()), abs(hbheDigi.ieta()), hbheDigi.iphi(), hbheDigi.depth() );
-
-      it_rbx = m_rbx_to_timing.find ( rbx_name );
-      if ( it_rbx == m_rbx_to_timing.end() ){
-	m_rbx_to_timing[rbx_name] = makeTH1F(rbx_name.c_str(), 200, -100, 100);
-      }
-      m_rbx_to_timing[rbx_name] -> Fill ( hbheDigi.recHitTime());
-
-      if      ( hbheDigi.iphi() >= 3  && hbheDigi.iphi() <= 26 ) h_time_HBHEa -> Fill ( hbheDigi.recHitTime() );
-      else if ( hbheDigi.iphi() >= 27 && hbheDigi.iphi() <= 50 ) h_time_HBHEb -> Fill ( hbheDigi.recHitTime() );
-      else                                                       h_time_HBHEc -> Fill ( hbheDigi.recHitTime() );
+      if ( fabs(t_diff) < 20. ) continue;
 
       h_occupancy[hbheDigi.depth()] -> Fill(hbheDigi.ieta(), hbheDigi.iphi());
       
       h_energy -> Fill ( hbheDigi.energy() );
       h_time   -> Fill ( hbheDigi.recHitTime());
+      h_time_diff -> Fill ( t_diff ) ;
+      h_time_vs_eta -> Fill ( hbheDigi.recHitTime(), hbheDigi.eta());
+      h_time_vs_z -> Fill ( hbheDigi.recHitTime(), hbheDigi.z());
+      h_time_vs_energy -> Fill ( hbheDigi.recHitTime(), hbheDigi.energy());
     }
   }
 }

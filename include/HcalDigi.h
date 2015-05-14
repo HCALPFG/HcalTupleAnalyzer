@@ -17,18 +17,34 @@ class HcalDigi : public Object {
   virtual int   depth () = 0;
   virtual int   size  () = 0;
   virtual int   presamples() = 0;
+  virtual int   electronicsId() = 0;
+  virtual int   rawId() = 0;
   virtual float fc    (int i) = 0;
   virtual int   adc   (int i) = 0;
+  virtual int   dv    (int i) = 0;
+  virtual int   er    (int i) = 0;
+  virtual int   capid (int i) = 0;
   
   float  fcTotal();
   double time();
+  double time12();
+  double time34();
+  double charge12();
+  double charge34();
   bool   isSignal();
+  int    maxADC();
 
   double & Pt() { return m_null_value; } // Code will crash!
   double & Eta(){ return m_null_value; } // Code will crash!
   double & Phi(){ return m_null_value; } // Code will crash!
   
-  bool PassUserID (ID, bool) { return false; }
+  bool PassUserID (ID id, bool verbose = false);
+  
+  bool PassUserID_DigiHasNDV     ( bool verbose );
+  bool PassUserID_DigiHasER      ( bool verbose );
+  bool PassUserID_DigiHasCapIDErr( bool verbose );
+  bool PassUserID_DigiHasBadSize ( bool verbose );
+  bool PassUserID_DigiIsSignal   ( bool verbose );
 
  protected:
   double m_null_value;
