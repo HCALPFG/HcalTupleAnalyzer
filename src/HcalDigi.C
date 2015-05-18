@@ -24,6 +24,11 @@ double HcalDigi::time(){
   return Time;
 }
 
+double HcalDigi::time12()  { return ( (1. * fc(1)) + (2. * fc(2)) ) / charge12(); }
+double HcalDigi::time34()  { return ( (3. * fc(3)) + (4. * fc(4)) ) / charge34(); }
+double HcalDigi::charge12(){ return ( fc(1) + fc(2) ); }
+double HcalDigi::charge34(){ return ( fc(3) + fc(4) ); }
+
 bool HcalDigi::isSignal(){
   int n = size();
   int Imax=-1; double max=-100;
@@ -40,4 +45,12 @@ float HcalDigi::fcTotal() {
     retval += fc(i);
   }
   return retval;
+}
+
+
+int HcalDigi::maxADC(){
+  int max = -999;
+  for (int i = 0; i < size(); ++i)
+    if ( adc(i) > max ) max = adc(i);
+  return max;
 }

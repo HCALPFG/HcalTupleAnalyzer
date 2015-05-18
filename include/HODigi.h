@@ -17,8 +17,13 @@ class HODigi : public HcalDigi {
   int   depth () ;
   int   size  () ;
   int   presamples() ;
+  int   electronicsId();
+  int   rawId();
   float fc (int i);
   int adc(int i);
+  int dv (int i);
+  int er (int i);
+  int capid (int i);
   
   int getRawIndex () { return m_raw_index; }
 

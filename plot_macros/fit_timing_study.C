@@ -24,7 +24,7 @@ void fit_timing_study(){
   // TH2F     * hist = (TH2F*) file -> Get("hb_cosmic_phi_vs_timing_depth1_dtFired");
   
   // TFile    * file = new TFile("/mnt/lxplus/work/HCALPFG/CMSSW_7_1_7/src/HCALPFG/HcalTupleAnalyzer/output/output_ECR_231228_Cosmics.root");
-  TFile    * file = new TFile("output_ECR_237068.root");
+  TFile    * file = new TFile("ExpressCosmics_EMapUpdated.root");
   TH2F     * hist = (TH2F*) file -> Get("hbhe_cosmic_phi_vs_timing_depth1_dtFired");
   // TH2F     * hist = (TH2F*) file -> Get("ho_cosmic_phi_vs_timing_dtFired");
   TProfile * prof = (TProfile*) hist -> ProfileX();
@@ -46,11 +46,11 @@ void fit_timing_study(){
   func -> SetParName(3, "Phase");
   
   func -> SetParLimits(0, 0.0, 10.0);
-  func -> SetParLimits(1, 0.0, 2.0);
-  func -> SetParLimits(2, 0.0, 2.0);
+  func -> SetParLimits(1, 0.1, 2.0);
+  func -> SetParLimits(2, 0.5, 2.0);
   func -> SetParLimits(3, 0.0, 2.0 * TMath::Pi());
   
-  func -> SetParameter(0, 5.0);
+  func -> SetParameter(0, 4.0);
   func -> SetParameter(1, 0.5);
   func -> SetParameter(2, 1.0);
   func -> SetParameter(3, TMath::Pi());

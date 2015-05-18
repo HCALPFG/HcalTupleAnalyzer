@@ -1,14 +1,14 @@
-#ifndef HF_DIGI_H
-#define HF_DIGI_H
+#ifndef HF_UTCA_H
+#define HF_UTCA_H
 
 #include "HcalDigi.h"
-#include "HFSample.h"
+#include "HFUTCASample.h"
 
-class HFDigi : public HcalDigi {
+class HFUTCA : public HcalDigi {
 
  public:
-  HFDigi();
-  HFDigi(Collection& c, unsigned short i, short j = 0);
+  HFUTCA();
+  HFUTCA(Collection& c, unsigned short i, short j = 0);
   
   float energy() ;
   float recHitTime  () ;
@@ -17,8 +17,8 @@ class HFDigi : public HcalDigi {
   int   depth () ;
   int   size  () ;
   int   presamples() ;
-  int   electronicsId();
-  int   rawId();
+  int   rawId        () ;
+  int   electronicsId() ;
   float fc (int i);
   int adc(int i);
   int dv (int i);
@@ -27,8 +27,8 @@ class HFDigi : public HcalDigi {
   
   int getRawIndex () { return m_raw_index; }
 
-  HFSample operator[] ( int i ){
-    return HFSample( *m_collection, m_raw_index, i );
+  HFUTCASample operator[] ( int i ){
+    return HFUTCASample( *m_collection, m_raw_index, i );
   }
   
 };

@@ -15,12 +15,20 @@ class HBHECosmicDigi : public HcalDigi {
   float phi();
   int   ieta  () ;
   int   iphi  () ;
+  int   subdet() ;
+  float eta  () ;
+  float phi  () ;
   int   depth () ;
   int   size  () ;
   int   presamples() ;
   float fc (int i);
   int adc(int i);
-  
+  int dv (int i);
+  int er (int i);
+  int capid (int i);
+
+  int   electronicsId();
+  int   rawId();
   int getRawIndex () { return m_raw_index; }
 
   HBHECosmicSample operator[] ( int i ){

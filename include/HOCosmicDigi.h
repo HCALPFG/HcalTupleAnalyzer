@@ -15,11 +15,18 @@ class HOCosmicDigi : public HcalDigi {
   float phi();
   int   ieta  () ;
   int   iphi  () ;
+  float eta  () ;
+  float phi  () ;
   int   depth () ;
   int   size  () ;
   int   presamples() ;
+  int   electronicsId();
+  int   rawId();
   float fc (int i);
   int adc(int i);
+  int dv (int i);
+  int er (int i);
+  int capid (int i);
   
   int getRawIndex () { return m_raw_index; }
 

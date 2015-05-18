@@ -46,6 +46,7 @@ else:
 # Move the file somewhere useful
 #----------------------------------------------------------------------------
 
+os.system ( "perl -pi -e 's/#define HcalTupleTree_h/#define HcalTupleTree_h\nusing namespace std;/g' " + args.class_name + ".h" )
 os.system ( "mv " + args.class_name + ".h include/" )
 os.system ( "mv " + args.class_name + ".C src/" )
 

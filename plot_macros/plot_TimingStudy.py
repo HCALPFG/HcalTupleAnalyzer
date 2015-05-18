@@ -41,8 +41,8 @@ d_variable_xaxisTitle = {
 
 yaxisTitle = "A.U. [unit-normalized]"
 
-hcal_file = r.TFile("ExpressCosmics_EMapUpdated.root")
-dt_file   = r.TFile("ExpressCosmics_EMapUpdated.root")
+hcal_file = r.TFile("output_ECR_237068.root");
+dt_file   = r.TFile("output_ECR_237068.root");
 
 canvas = r.TCanvas();
 canvas.Print(outFileName+"[")
