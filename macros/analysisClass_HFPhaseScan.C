@@ -65,6 +65,7 @@ void analysisClass::loop(){
   char hist_name[200];
   
   std::map<int, TH1F*> map_hash_timing12;
+  std::map<int, TH1F*>::iterator map_it;
 
   for (int i = 0; i < n_events; ++i){
     
