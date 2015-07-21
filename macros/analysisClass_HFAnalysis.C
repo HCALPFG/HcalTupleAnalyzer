@@ -32,13 +32,15 @@ void analysisClass::loop(){
   //--------------------------------------------------------------------------------
   // Loop
   //--------------------------------------------------------------------------------
-  
   int nHFDigis;
-  
+
   float pedestalThreshold = 20;
 
   TH2F * badChannel_depth1 = makeTH2F("shift_depth1", 85, -42.5, 42.5, 72, 0.5, 72.5 );
   TH2F * badChannel_depth2 = makeTH2F("shift_depth2", 85, -42.5, 42.5, 72, 0.5, 72.5 );
+  TH2F * averageTiming =  makeTH2F("averageTiming", 85, -42.5, 42.5, 72, 0.5, 72.5 );
+  TH2F * count =  makeTH2F("count", 85, -42.5, 42.5, 72, 0.5, 72.5 );
+
   for (int i = 0; i < n_events; ++i){
     
     tuple_tree -> GetEntry(i);
@@ -51,6 +53,9 @@ void analysisClass::loop(){
     for (int iHFDigi = 0; iHFDigi < nHFDigis; ++iHFDigi){
       HFDigi hfDigi = hfDigis -> GetConstituent<HFDigi>(iHFDigi);
 
+      // averageTiming -> Fill(hfDigi.ieta(),hfDigi.iphi(),hfDigi.recHitTime());
+      count -> Fill(hfDigi.ieta(),hfDigi.iphi());
+
       if ( (hfDigi.fc(0) > pedestalThreshold) or (hfDigi.fc(3) > pedestalThreshold ) ){
         if (hfDigi.depth() == 1){
           badChannel_depth1 -> Fill(hfDigi.ieta(),hfDigi.iphi());
@@ -58,10 +63,15 @@ void analysisClass::loop(){
         if (hfDigi.depth() == 2){
           badChannel_depth2 -> Fill(hfDigi.ieta(),hfDigi.iphi());
         };
+	
+
 
       };
       
       
     }
   }
+  
+  averageTiming -> Divide(count);
+
 }
