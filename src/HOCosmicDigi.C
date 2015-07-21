@@ -22,4 +22,3 @@ int   HOCosmicDigi::adc     (int i) {return m_collection -> GetData() -> HOCosmi
 int   HOCosmicDigi::dv      (int i) {return m_collection -> GetData() -> HOCosmicDigiDV            -> at(m_raw_index)[i];}
 int   HOCosmicDigi::er      (int i) {return m_collection -> GetData() -> HOCosmicDigiER            -> at(m_raw_index)[i];}
 int   HOCosmicDigi::capid   (int i) {return m_collection -> GetData() -> HOCosmicDigiCapID         -> at(m_raw_index)[i];}
-

@@ -12,7 +12,6 @@ int   HBHEDigi::ieta         () {return m_collection -> GetData() -> HBHEDigiIEt
 int   HBHEDigi::iphi         () {return m_collection -> GetData() -> HBHEDigiIPhi          -> at(m_raw_index);}
 float HBHEDigi::eta          () {return m_collection -> GetData() -> HBHEDigiEta           -> at(m_raw_index);}
 float HBHEDigi::phi          () {return m_collection -> GetData() -> HBHEDigiPhi           -> at(m_raw_index);}
-float HBHEDigi::z            () {return m_collection -> GetData() -> HBHEDigiZ             -> at(m_raw_index);}
 int   HBHEDigi::depth        () {return m_collection -> GetData() -> HBHEDigiDepth         -> at(m_raw_index);}
 int   HBHEDigi::subdet       () {return m_collection -> GetData() -> HBHEDigiSubdet        -> at(m_raw_index);}
 int   HBHEDigi::size         () {return m_collection -> GetData() -> HBHEDigiSize          -> at(m_raw_index);}

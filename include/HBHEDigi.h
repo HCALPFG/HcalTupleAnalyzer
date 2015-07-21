@@ -16,7 +16,6 @@ class HBHEDigi : public HcalDigi {
   int   iphi  () ;
   float eta  () ;
   float phi  () ;
-  float z();
   int   depth () ;
   int   subdet () ;
   int   size  () ;
