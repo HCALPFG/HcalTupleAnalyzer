@@ -1,6 +1,7 @@
 #include "analysisClass.h"
 #include "HcalTupleTree.h"
 #include "HcalTP.h"
+#include "HBHEDigi.h"
 
 void analysisClass::loop(){
   
@@ -24,6 +25,11 @@ void analysisClass::loop(){
   tuple_tree -> fChain -> SetBranchStatus("HcalTriggerPrimitiveCompressedEtSOI", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HcalTriggerPrimitiveIEta", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HcalTriggerPrimitiveIPhi", kTRUE);
+  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIEta"      , kTRUE);
+  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIPhi"      , kTRUE); 
+  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRecEnergy"      , kTRUE);
+  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiADC"      , kTRUE);
+  tuple_tree -> fChain -> SetBranchStatus("HcalTriggerPrimitiveHBHEDigiIndex" , kTRUE);
 
   //--------------------------------------------------------------------------------
   // Make histograms
@@ -31,8 +37,15 @@ void analysisClass::loop(){
   TH1F * h_et = makeTH1F("SumEt",100,0.,50.);
   TH1F * h_ieta = makeTH1F("ieta",59, -29.5, 29.5);
   TH1F * h_iphi = makeTH1F("iphi",72, 0.5, 72.5 );
+  
+  //-----------------------------------------------------------------
+  // Validation Plot
+  //-----------------------------------------------------------------
+  TH1F * h_energy = makeTH1F("energy_DigiFromZeroTP",100,0.,10.);
+  TH1F * h_linADC = makeTH1F("linADC_DigiFromZeroTP",100,0.,10.);
+  TH2F * h_ieta_vs_iphi_zeroEt = makeTH2F("h_ieta_vs_iphi_zeroEt",59, -29.5, 29.5, 72, 0.5, 72.5);
+  TH2F * h_ieta_vs_iphi = makeTH2F("ieta_vs_iphi_DigiFromZeroTP",59, -29.5, 29.5, 72, 0.5, 72.5);
 
-  TH2F * h_ieta_vs_iphi_zeroEt = makeTH2F("h_ieta_vs_iphi_zeroEt",59, -29.5, 29.5, 72, 0.5, 72.5); 
 
   //--------------------------------------------------------------------------------
   // Loop
@@ -47,7 +60,8 @@ void analysisClass::loop(){
     // Collections of Hcal Trigger Primitive 
     //-----------------------------------------------------------------
     CollectionPtr hcalTPs (new Collection(*tuple_tree, tuple_tree -> HcalTriggerPrimitiveIEta -> size()));
-    
+    CollectionPtr hbheDigis (new Collection(*tuple_tree, tuple_tree -> HBHEDigiIEta -> size()));
+   
     int nHcalTPs = hcalTPs -> GetSize();
     // std::cout << "Number of HcalTP in this dataset:" <<  nHcalTPs << std::endl;
     for (int iHcalTP = 0; iHcalTP < nHcalTPs; ++iHcalTP){
@@ -62,6 +76,12 @@ void analysisClass::loop(){
       //-----------------------------------------------------------------
       if (hcalTP.Et() < 1.){
         h_ieta_vs_iphi_zeroEt -> Fill ( hcalTP.ieta() , hcalTP.iphi() );
+        for (int iHBHE = 0; iHBHE != hcalTP.HBHEIndices().size() ; ++iHBHE){
+          HBHEDigi hbheDigi = hbheDigis -> GetConstituent<HBHEDigi>(  hcalTP.HBHEIndices()[iHBHE] );
+	  h_energy -> Fill(hbheDigi.energy());
+	  h_linADC -> Fill(hbheDigi.adc(2));
+	  h_ieta_vs_iphi -> Fill(hbheDigi.ieta(),hbheDigi.iphi());
+        };
       }; 
 
     };
