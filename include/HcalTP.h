@@ -3,6 +3,8 @@
 
 #include "Object.h"
 #include "Collection.h"
+#include "HBHEDigi.h"
+// #include "HFDigi.h"
 
 class HcalTP : public Object {
 
@@ -15,6 +17,7 @@ public:
   int iphi();
   int fineGrain();
   int presamples();
+  std::vector< int > HBHEIndices();
   
   double & Pt() { return m_null_value; } // Code will crash!
   double & Eta(){ return m_null_value; } // Code will crash!
@@ -22,7 +25,13 @@ public:
 
   bool PassUserID (ID id, bool verbose = false) {return false; }
 
+  HBHEDigi operator[] (int i){
+    return HBHEDigi(*m_collection, m_raw_index, i );
+  }
+  
 
+
+protected:
   double m_null_value;
 
 };
