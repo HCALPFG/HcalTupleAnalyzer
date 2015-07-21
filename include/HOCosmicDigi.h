@@ -16,7 +16,6 @@ class HOCosmicDigi : public HcalDigi {
   int   ieta  () ;
   int   iphi  () ;
   float eta  () ;
-  float phi  () ;
   int   depth () ;
   int   size  () ;
   int   presamples() ;
