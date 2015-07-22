@@ -24,7 +24,8 @@ class HODigi : public HcalDigi {
   int dv (int i);
   int er (int i);
   int capid (int i);
-  
+  float gain(int i);
+
   int getRawIndex () { return m_raw_index; }
 
   HOSample operator[] ( int i ){
