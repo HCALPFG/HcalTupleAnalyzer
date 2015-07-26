@@ -25,12 +25,16 @@ class HODigi : public HcalDigi {
   int er (int i);
   int capid (int i);
   float gain(int i);
+  const int sumADC = _sumADC();
 
   int getRawIndex () { return m_raw_index; }
 
   HOSample operator[] ( int i ){
     return HOSample( *m_collection, m_raw_index, i );
   }
+
+ private:
+  int _sumADC();
   
 };
 
