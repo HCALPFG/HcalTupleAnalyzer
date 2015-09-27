@@ -20,3 +20,12 @@ int   HODigi::adc     (int i) {return m_collection -> GetData() -> HODigiADC    
 int   HODigi::dv      (int i) {return m_collection -> GetData() -> HODigiDV            -> at(m_raw_index)[i];}
 int   HODigi::er      (int i) {return m_collection -> GetData() -> HODigiER            -> at(m_raw_index)[i];}
 int   HODigi::capid   (int i) {return m_collection -> GetData() -> HODigiCapID         -> at(m_raw_index)[i];}
+float HODigi::gain    (int i) {return m_collection -> GetData() -> HODigiGain          -> at(m_raw_index)[i];}
+
+int HODigi::_sumADC(){
+  int sum = 0;
+  for (int i = 0; i != size(); ++i){
+    sum += adc(i);
+  };
+  return sum;
+};

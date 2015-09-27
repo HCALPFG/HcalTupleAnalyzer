@@ -7,7 +7,7 @@ LIBS= ${ROOTLIBS}
 SRC= ./src
 BASE_OBJECTS=$(SRC)/analysisClass.o $(SRC)/baseClass.o $(SRC)/Object.o $(SRC)/Collection.o $(SRC)/Cell.o
 TOOL_OBJECTS=$(SRC)/RBXMap.o
-PHYS_OBJECTS=$(SRC)/HcalDigi.o $(SRC)/HcalDigiIDs.o $(SRC)/HcalSample.o $(SRC)/HBHEDigi.o $(SRC)/HBHESample.o $(SRC)/HcalTP.o 
+PHYS_OBJECTS=$(SRC)/HcalDigi.o $(SRC)/HcalDigiIDs.o $(SRC)/HcalSample.o $(SRC)/HBHEDigi.o $(SRC)/HBHESample.o 
 TREE_OBJECTS=$(SRC)/HcalTupleTree.o 
 OBJECTS=$(BASE_OBJECTS) $(TOOL_OBJECTS) $(PHYS_OBJECTS) $(TREE_OBJECTS)
 
