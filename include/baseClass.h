@@ -79,7 +79,7 @@ class baseClass {
   const std::string m_treeList;
   const std::string m_outFileName;
   
-  std::vector<TH1*> m_objects;
+  std::vector<TObject*> m_objects;
   
   TFile * m_outFile;
   std::map<std::string, bool> triggerDecisionMap_; 

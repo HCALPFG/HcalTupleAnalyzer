@@ -133,8 +133,8 @@ TGraph* baseClass::makeTGraph(){
 
 void baseClass::write(){
   m_outFile -> cd();
-  std::vector<TH1*>::iterator i_object   = m_objects.begin();
-  std::vector<TH1*>::iterator end_object = m_objects.end  ();
+  std::vector<TObject*>::iterator i_object   = m_objects.begin();
+  std::vector<TObject*>::iterator end_object = m_objects.end  ();
   for (; i_object != end_object; ++i_object)
     (*i_object) -> Write();
 }
