@@ -55,30 +55,6 @@ void analysisClass::loop(){
   TH2F * h_eta_vs_phi = makeTH2F("eta_vs_phi",100,-5.,5., 100, -3.14, 3.14 );
   TH2F * h_ieta_vs_iphi =  makeTH2F("ieta_vs_iphi",81, -40.5, 40.5,72,0.5,72.5);
 
-  TH2F * h_ieta_vs_iphi_TSRatio = makeTH2F("ieta_vs_iphi_TSRatio",81, -40.5, 40.5,72,0.5,72.5);
-  TH2F * h_ieta_vs_iphi_TSRatioCount = makeTH2F("ieta_vs_iphi_TSRatioCount",81, -40.5, 40.5,72,0.5,72.5);
-
-  std::vector<TH2F*> h_occupancy (5);
-  std::vector<TH2F*> h_averageTime (5);
-
-
-  char hist_name[100];
-  for (int i = 1; i <=4; ++i){
-    sprintf(hist_name,"occupancy_depth%d", i);
-    h_occupancy[i] = makeTH2F(hist_name, 85, -42.5, 42.5, 72, 0.5, 72.5 );
-
-    sprintf(hist_name,"ieta_vs_iphi_averageTime_depth%d",i);
-    h_averageTime[i] = makeTH2F(hist_name, 85, -42.5, 42.5, 72, 0.5, 72.5 );
-  }
-
-
-  //--------------------------------------------------------------------------------
-  // Special Validation Plot
-  //--------------------------------------------------------------------------------
-  TH2F * h_ieta_vs_iphi_TimingCut = makeTH2F("ieta_vs_iphi_TimingCut",81,-40.5,40.5,72,0.5,72.5);
-  TH2F * h_eta_vs_phi_TimingCut = makeTH2F("eta_vs_phi_TimingCut",100,-5.,5., 100, -3.14, 3.14 );
-
-
   //--------------------------------------------------------------------------------
   // Loop
   //--------------------------------------------------------------------------------
@@ -99,7 +75,6 @@ void analysisClass::loop(){
 
       if ( hbheDigi.energy() < 5.0 ) continue;
 
-      h_occupancy[hbheDigi.depth()] -> Fill(hbheDigi.ieta(), hbheDigi.iphi());
       
       h_energy -> Fill ( hbheDigi.energy() );
       h_time   -> Fill ( hbheDigi.recHitTime());
@@ -107,25 +82,6 @@ void analysisClass::loop(){
       h_eta_vs_phi->Fill(hbheDigi.eta(),hbheDigi.phi());
       h_ieta_vs_iphi->Fill(hbheDigi.ieta(),hbheDigi.iphi());
 
-      // Fiddling with samples
-      // std::cout << hbheDigi.size() << std::endl;
-      // if ((hbheDigi.adc(4) > 30) && (hbheDigi.adc(4) < 100)){
-      //  h_ieta_vs_iphi_TSRatio -> Fill(hbheDigi.ieta(),hbheDigi.iphi(),hbheDigi.adc(5)/hbheDigi.adc(4));
-      //  h_ieta_vs_iphi_TSRatioCount -> Fill(hbheDigi.ieta(),hbheDigi.iphi());
-      //};
-
-
-      //-----------------------------------------------------------------
-      // Filling of special validation plot
-      //-----------------------------------------------------------------
-      if (hbheDigi.recHitTime() > 10.){
-        h_ieta_vs_iphi_TimingCut -> Fill(hbheDigi.ieta(),hbheDigi.iphi());
-        h_eta_vs_phi_TimingCut -> Fill(hbheDigi.eta(),hbheDigi.phi());
-      };
     };
   };
-  
-  
-  // h_ieta_vs_iphi_TSRatio -> Divide(h_ieta_vs_iphi_TSRatioCount);
-
 };
