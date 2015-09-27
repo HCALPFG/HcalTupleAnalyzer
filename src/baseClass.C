@@ -119,6 +119,18 @@ TH2F* baseClass::makeTH2F(const char * name, int nbinsx, float xmin, float xmax,
   return hist;
 }
 
+TGraph* baseClass::makeTGraph(int n, const double* x, const double* y){
+  TGraph* graph = new TGraph(n,x,y);
+  m_objects.push_back(graph);
+  return graph;
+};
+
+TGraph* baseClass::makeTGraph(){
+  TGraph* graph = new TGraph();
+  m_objects.push_back(graph);
+  return graph;
+};
+
 void baseClass::write(){
   m_outFile -> cd();
   std::vector<TH1*>::iterator i_object   = m_objects.begin();
