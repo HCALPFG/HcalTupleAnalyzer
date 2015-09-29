@@ -18,18 +18,10 @@ void analysisClass::loop(){
   
   tuple_tree -> fChain -> SetBranchStatus("*"               , kFALSE);
   tuple_tree -> fChain -> SetBranchStatus("run", kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("event", kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("ls", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRecEnergy", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRecTime", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIEta", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIPhi", kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiEta", kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiPhi", kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiDepth", kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiSubdet", kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRawID", kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiADC", kTRUE);
 
   //--------------------------------------------------------------------------------
   // Make histograms
@@ -59,7 +51,7 @@ void analysisClass::loop(){
     // Collections of HBHE
     //-----------------------------------------------------------------
     CollectionPtr hbheDigis (new Collection(*tuple_tree, tuple_tree -> HBHEDigiIEta -> size()));
-    
+
     int runNumber = tuple_tree -> run;
     int nHBHEDigis = hbheDigis -> GetSize();
     for (int iHBHEDigi = 0; iHBHEDigi < nHBHEDigis; ++iHBHEDigi){
