@@ -131,6 +131,12 @@ TGraph* baseClass::makeTGraph(){
   return graph;
 };
 
+TGraph* baseClass::makeTGraph(int n){
+  TGraph* graph = new TGraph(n);
+  m_objects.push_back(graph);
+  return graph;
+};
+
 void baseClass::write(){
   m_outFile -> cd();
   std::vector<TObject*>::iterator i_object   = m_objects.begin();

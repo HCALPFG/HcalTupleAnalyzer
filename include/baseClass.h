@@ -37,6 +37,7 @@ class baseClass {
   TH2F* makeTH2F(const char * name, int nbinsx, float xmin, float xmax, int nbinsy, float ymin, float ymax);
   TGraph* makeTGraph(int n, const double* x, const double* y);
   TGraph* makeTGraph();
+  TGraph* makeTGraph(int n);
 
   template<typename T> T* getTree(std::string tree_name, std::string file_label = std::string("no_label")){
     if ( m_treeMap.find ( tree_name ) == m_treeMap.end() ){
