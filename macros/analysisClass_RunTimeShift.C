@@ -2,6 +2,30 @@
 #include "HcalTupleTree.h"
 #include "HBHEDigi.h"
 
+int getHash ( const int & ieta, 
+	      const int & iphi, 
+	      const int & depth ){
+  int ietaIndex = ieta + 41;
+  int iphiIndex = iphi;
+  int depthIndex = depth;
+  
+  int hash = 0;
+  hash += (ietaIndex * 1);
+  hash += (iphiIndex * 100);
+  hash += (depthIndex * 10000);
+  return hash;
+};
+
+void reverseHash ( const int & hash,
+		   int & ieta,
+		   int & iphi,
+		   int & depth ){
+  int tmp_hash = hash;
+  ieta = (hash % 100) - 41;
+  iphi = (hash / 100) % 100;
+  depth = (hash / 10000);
+};
+
 void analysisClass::loop(){
   
   //--------------------------------------------------------------------------------
@@ -16,28 +40,21 @@ void analysisClass::loop(){
   // Turn on/off branches
   //--------------------------------------------------------------------------------
   
-  tuple_tree -> fChain -> SetBranchStatus("*"               , kFALSE);
+  tuple_tree -> fChain -> SetBranchStatus("*", kFALSE);
   tuple_tree -> fChain -> SetBranchStatus("run", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRecEnergy", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRecTime", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIEta", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIPhi", kTRUE);
+  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiDepth", kTRUE);
 
   //--------------------------------------------------------------------------------
   // Make histograms
   //--------------------------------------------------------------------------------
-  std::vector<int> runList = {255981,256001,256141,256166,256171,256216,256236,256346,256406,256446,256461};
-  std::map<int,TH2F*> RecHitTiming;
-  std::map<int,TH2F*> Occupancy;
-  
+  std::map<int,std::map<int,TH1F*>> RecHitTiming;
+  int hash;
   char histName[100];
-  for (std::vector<int>::iterator itr = runList.begin(); itr != runList.end(); itr++){
-    sprintf(histName,"AverageRecHitTime_%d",*itr);
-    RecHitTiming[*itr] = makeTH2F(histName,81, -40.5, 40.5,72,0.5,72.5);
-    sprintf(histName,"Occupancy_%d",*itr);
-    Occupancy[*itr] = makeTH2F(histName,81, -40.5, 40.5,72,0.5,72.5);
-  };
-
+  
   //--------------------------------------------------------------------------------
   // Loop
   //--------------------------------------------------------------------------------
@@ -53,25 +70,46 @@ void analysisClass::loop(){
     CollectionPtr hbheDigis (new Collection(*tuple_tree, tuple_tree -> HBHEDigiIEta -> size()));
 
     int runNumber = tuple_tree -> run;
+
+    if (RecHitTiming.find(runNumber) == RecHitTiming.end()){
+      RecHitTiming[runNumber] = std::map<int,TH1F*>();
+    };
+
     int nHBHEDigis = hbheDigis -> GetSize();
     for (int iHBHEDigi = 0; iHBHEDigi < nHBHEDigis; ++iHBHEDigi){
       HBHEDigi hbheDigi = hbheDigis -> GetConstituent<HBHEDigi>(iHBHEDigi);
 
       if ( hbheDigi.energy() < 5.0 ) continue;
-      RecHitTiming[runNumber] -> Fill(hbheDigi.ieta(),hbheDigi.iphi(),hbheDigi.recHitTime());
-      Occupancy[runNumber] -> Fill(hbheDigi.ieta(),hbheDigi.iphi());
- 
+
+      hash = getHash( hbheDigi.ieta() , hbheDigi.iphi() , hbheDigi.depth() );
+      if ( RecHitTiming[runNumber].find(hash) == RecHitTiming[runNumber].end() ){
+        sprintf(histName, "%d_HBHE_%d_%d_%d", runNumber , hbheDigi.ieta(), hbheDigi.iphi(), hbheDigi.depth());
+        RecHitTiming[runNumber].insert(std::pair<int,TH1F*>(hash, makeTH1F(histName,100,-10.,10.)));
+      };
+
+      RecHitTiming[runNumber][hash] -> Fill(hbheDigi.recHitTime());
+
     };
   };
 
-  TGraph * graph = makeTGraph();
+  TH1F * graph = makeTH1F("RecHitTiming_vs_RunNumber",RecHitTiming.size(),-0.5,RecHitTiming.size()-0.5);
   char binLabel[100];
   int iBin = 1;
-  for (std::map<int,TH2F*>::iterator it = RecHitTiming.begin(); it != RecHitTiming.end(); it++){
-    // graph -> SetPoint((int)(it-RecHitTiming.begin()+1), it -> first, it -> second -> Integral() / Occupancy[it -> first] -> Integral());
-    graph -> SetPoint( iBin , it -> first , it -> second -> Integral() / Occupancy[it -> first] -> Integral());
+  for (std::map<int,std::map<int,TH1F*>>::iterator it = RecHitTiming.begin(); it != RecHitTiming.end(); it++){
+    double sum = 0;
+    double error2 = 0;
+    int count = 0;
+    for (std::map<int,TH1F*>::iterator it2 = it -> second.begin(); it2 != it -> second.end(); it2++){
+      count += it2 -> second -> Integral(0,101);
+      sum += (it2 -> second -> Integral(0,101))*(it2 -> second -> GetMean());
+      error2 += (it2 -> second -> GetRMS())*(it2 -> second -> GetRMS());
+    };
+
+    graph -> SetBinContent( iBin , sum/count  );
+    graph -> SetBinError(iBin , sqrt(error2/count) );
     sprintf(binLabel,"%d",it -> first);
-    graph -> GetXaxis() -> SetBinLabel( iBin , binLabel);
+    graph -> GetXaxis() -> SetBinLabel( iBin , binLabel );
+    iBin++;
   };
    
 
