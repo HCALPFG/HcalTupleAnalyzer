@@ -7,3 +7,4 @@
 !.gitignore
 main
 config
+*.pyc
