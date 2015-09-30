@@ -99,14 +99,16 @@ void analysisClass::loop(){
     double sum = 0;
     double error2 = 0;
     int count = 0;
+    int channelCount = 0;
     for (std::map<int,TH1F*>::iterator it2 = it -> second.begin(); it2 != it -> second.end(); it2++){
+      channelCount++;
       count += it2 -> second -> Integral(0,101);
       sum += (it2 -> second -> Integral(0,101))*(it2 -> second -> GetMean());
       error2 += (it2 -> second -> GetRMS())*(it2 -> second -> GetRMS());
     };
 
     graph -> SetBinContent( iBin , sum/count  );
-    graph -> SetBinError(iBin , sqrt(error2/count) );
+    graph -> SetBinError(iBin , sqrt(error2/count/channelCount) );
     sprintf(binLabel,"%d",it -> first);
     graph -> GetXaxis() -> SetBinLabel( iBin , binLabel );
     iBin++;
