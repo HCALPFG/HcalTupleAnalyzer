@@ -104,7 +104,7 @@ void analysisClass::loop(){
       channelCount++;
       count += it2 -> second -> Integral(0,101);
       sum += (it2 -> second -> Integral(0,101))*(it2 -> second -> GetMean());
-      error2 += (it2 -> second -> GetRMS())*(it2 -> second -> GetRMS());
+      error2 += (it2 -> second -> GetRMS())*(it2 -> second -> GetRMS())*( it2 -> second -> Integral(0,101));
     };
 
     graph -> SetBinContent( iBin , sum/count  );
