@@ -63,13 +63,16 @@ void analysisClass::loop(){
     
     tuple_tree -> GetEntry(i);
     if ( (i + 1) % 1000 == 0 ) std::cout << "Processing event " << i + 1 << "/" << n_events << std::endl;
+
+    int runNumber = tuple_tree -> run;
+
+    if ((runNumber == 256141) || (runNumber == 256346) || (runNumber == 256461)) continue;
+
     
     //-----------------------------------------------------------------
     // Collections of HBHE
     //-----------------------------------------------------------------
     CollectionPtr hbheDigis (new Collection(*tuple_tree, tuple_tree -> HBHEDigiIEta -> size()));
-
-    int runNumber = tuple_tree -> run;
 
     if (RecHitTiming.find(runNumber) == RecHitTiming.end()){
       RecHitTiming[runNumber] = std::map<int,TH1F*>();
