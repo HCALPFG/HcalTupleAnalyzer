@@ -14,17 +14,16 @@ hist_prefix = args.select
 drawOption = args.option
 
 inputFile = ROOT.TFile(inFileName,"READ")
-histNames = [k.GetName() for k in inputFile.GetListOfKeys()]
-hists = [ inputFile.Get(histName) for histName in histNames if hist_prefix in histName]
-maximum = max([hist.GetMaximum() for hist in hists])
+histNames = [k.GetName() for k in inputFile.GetListOfKeys() if hist_prefix in k.GetName() ] 
+hists =  [ inputFile.Get(histName) for histName in histNames ]
 
 print "Total Number of Hist: %s"%len(hists)
 c = ROOT.TCanvas()
 c.Print(outFileName+"[")
 for i,hist in enumerate(hists):
-	# if not ((i & 1000) == 0): continue
-	# print i
 	hist.SetStats(0)
+	hist.GetYaxis().SetRangeUser(0.,1.2*hist.GetMaximum())
+	# hist.SetTitle(hist.GetName().replace("_"," ").replace("EndCap","Central")+" ; TS ; Average fC per rechit")
 	hist.Draw(drawOption)
 	c.Print(outFileName)
 c.Print(outFileName+"]")
