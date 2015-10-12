@@ -77,10 +77,15 @@ void analysisClass::loop(){
     int eventNumber = tuple_tree -> event;
     if (std::find(eventListMap.begin(),eventListMap.end(),std::vector<int>{runNumber,lumiSection,eventNumber}) == eventListMap.end()) continue;
     
-    sprintf(histName,"PulseShape_%d_%d_%d",runNumber,lumiSection,eventNumber);
-    sprintf(title," %d %d %d ; TS ; FC",runNumber,lumiSection,eventNumber);
+    sprintf(histName,"PulseShape_Central_%d_%d_%d",runNumber,lumiSection,eventNumber);
+    sprintf(title," Central, %d %d %d ; TS ; FC",runNumber,lumiSection,eventNumber);
     TH1F * tempHist = makeTH1F(histName,10,-0.5,9.5);
     tempHist -> SetTitle(title);
+
+    sprintf(histName,"PulseShape_EndCap_%d_%d_%d",runNumber,lumiSection,eventNumber);
+    sprintf(title," EndCap, %d %d %d ; TS ; FC",runNumber,lumiSection,eventNumber);
+    TH1F * tempHist3 = makeTH1F(histName,10,-0.5,9.5);
+    tempHist3 -> SetTitle(title);
 
     sprintf(histName,"EtaPhi_%d_%d_%d",runNumber,lumiSection,eventNumber);
     sprintf(title," %d %d %d ; i#eta ; i#phi",runNumber,lumiSection,eventNumber);
@@ -94,20 +99,26 @@ void analysisClass::loop(){
     CollectionPtr hbheDigis (new Collection(*tuple_tree, tuple_tree -> HBHEDigiIEta -> size()));
     
     int nHBHEDigis = hbheDigis -> GetSize();
-    int count = 0;
+    int count = 0; int count3 = 0;
     for (int iHBHEDigi = 0; iHBHEDigi < nHBHEDigis; ++iHBHEDigi){
       HBHEDigi hbheDigi = hbheDigis -> GetConstituent<HBHEDigi>(iHBHEDigi);
 
-      if ( hbheDigi.energy() < 5.0 ) continue;
-      count++;
+      if ( hbheDigi.energy() < 5.0 ) continue; 
       for (int its = 0; its != 10; its++){
-        tempHist -> Fill ( its , hbheDigi.fc(its) );
+	if (abs(hbheDigi.ieta()) < 20){
+	  count++;
+          tempHist -> Fill ( its , hbheDigi.fc(its) );
+	} else {
+	  count3++;
+	  tempHist3 -> Fill ( its, hbheDigi.fc(its) );
+	};
         tempHist2 -> Fill ( hbheDigi.ieta() , hbheDigi.iphi() );
       };
       // int rawIndex = hbheDigi.getRawIndex();
       // std::cout << tuple_tree -> HBHEDigiFC -> at(rawIndex).size() << std::endl;
     };
     tempHist -> Scale( 1./count );
+    tempHist3 -> Scale( 1./count3 );
     
   };
 };
