@@ -66,13 +66,16 @@ void analysisClass::loop(){
   hf23_signal[2] = makeTH1F("hf23_signal_2", 4 , -0.5, 3.5 );
   hf23_signal[2] -> SetTitle("Signal Shape, i#phi = 23, Lumi Section > 400 ; TS ; fC");
 
+  int lumiSection,lumiIndex;
+
   for (int i = 0; i < n_events; ++i){
     
     tuple_tree -> GetEntry(i);
     if ( (i + 1) % 10000 == 0 ) std::cout << "Processing event " << i + 1 << "/" << n_events << std::endl;
 
-    int lumiSection = tuple_tree -> ls;
-    int lumiIndex;
+    if ( not ( (i + 1) % 1000 == 0 ) ) continue;
+
+    lumiSection = tuple_tree -> ls;
     if (lumiSection < 400){
       lumiIndex = 1;
     } else {
@@ -100,13 +103,14 @@ void analysisClass::loop(){
 
       if (hfDigi.energy() < 5) continue;
       hf_occupancy[lumiIndex] -> Fill( hfDigi.ieta() , hfDigi.iphi() );
-      if ((hfDigi.iphi() != 21) || (hfDigi.iphi() != 23)) continue;
+      // if ((hfDigi.iphi() != 21) || (hfDigi.iphi() != 23)) continue;
       if (hfDigi.iphi() == 21){
-        for (int iTS = 0; iTS != 10; iTS++){
+        for (int iTS = 0; iTS != 3; iTS++){
           hf21_signal[lumiIndex] -> Fill( iTS , hfDigi.fc(iTS) );
         };
-      } else {
-        for (int iTS = 0; iTS != 10; iTS++){
+      };
+      if (hfDigi.iphi() == 23){
+        for (int iTS = 0; iTS != 3; iTS++){
           hf23_signal[lumiIndex] -> Fill( iTS , hfDigi.fc(iTS) );
         };
       };
