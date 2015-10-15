@@ -47,11 +47,14 @@ void analysisClass::loop(){
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIEta", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIPhi", kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiDepth", kTRUE);
+  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiFC", kTRUE);
+  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiSize", kTRUE);
 
   //--------------------------------------------------------------------------------
   // Make histograms
   //--------------------------------------------------------------------------------
   std::map<int,std::map<int,TH1F*>> RecHitTiming;
+  std::map<int,std::map<int,TH1F*>> AvgTiming;
   int hash;
   char histName[100];
   
@@ -62,13 +65,10 @@ void analysisClass::loop(){
   for (int i = 0; i < n_events; ++i){
     
     tuple_tree -> GetEntry(i);
-    if ( (i + 1) % 1000 == 0 ) std::cout << "Processing event " << i + 1 << "/" << n_events << std::endl;
+    if ( (i + 1) % 10000 == 0 ) std::cout << "Processing event " << i + 1 << "/" << n_events << std::endl;
 
     int runNumber = tuple_tree -> run;
 
-    if ((runNumber == 256141) || (runNumber == 256346) || (runNumber == 256461)) continue;
-
-    
     //-----------------------------------------------------------------
     // Collections of HBHE
     //-----------------------------------------------------------------
@@ -77,6 +77,10 @@ void analysisClass::loop(){
     if (RecHitTiming.find(runNumber) == RecHitTiming.end()){
       RecHitTiming[runNumber] = std::map<int,TH1F*>();
     };
+    if (AvgTiming.find(runNumber) == AvgTiming.end()){
+      AvgTiming[runNumber] = std::map<int,TH1F*>();
+    };
+
 
     int nHBHEDigis = hbheDigis -> GetSize();
     for (int iHBHEDigi = 0; iHBHEDigi < nHBHEDigis; ++iHBHEDigi){
@@ -86,11 +90,17 @@ void analysisClass::loop(){
 
       hash = getHash( hbheDigi.ieta() , hbheDigi.iphi() , hbheDigi.depth() );
       if ( RecHitTiming[runNumber].find(hash) == RecHitTiming[runNumber].end() ){
-        sprintf(histName, "%d_HBHE_%d_%d_%d", runNumber , hbheDigi.ieta(), hbheDigi.iphi(), hbheDigi.depth());
+        sprintf(histName, "%d_RecHitTiming_HBHE_%d_%d_%d", runNumber , hbheDigi.ieta(), hbheDigi.iphi(), hbheDigi.depth());
         RecHitTiming[runNumber].insert(std::pair<int,TH1F*>(hash, makeTH1F(histName,100,-10.,10.)));
       };
 
+      if ( AvgTiming[runNumber].find(hash) == AvgTiming[runNumber].end() ){
+        sprintf(histName, "%d_AvgTiming_HBHE_%d_%d_%d", runNumber , hbheDigi.ieta(), hbheDigi.iphi(), hbheDigi.depth());
+        AvgTiming[runNumber].insert(std::pair<int,TH1F*>(hash, makeTH1F(histName,100,0.,10.)));
+      };
+
       RecHitTiming[runNumber][hash] -> Fill(hbheDigi.recHitTime());
+      AvgTiming[runNumber][hash] -> Fill(hbheDigi.time());
 
     };
   };
@@ -116,6 +126,26 @@ void analysisClass::loop(){
     graph -> GetXaxis() -> SetBinLabel( iBin , binLabel );
     iBin++;
   };
-   
+  
+  TH1F * graph2 = makeTH1F("AvgTiming_vs_RunNumber",AvgTiming.size(),-0.5,AvgTiming.size()-0.5);
+  iBin = 1;
+  for (std::map<int,std::map<int,TH1F*>>::iterator it = AvgTiming.begin(); it != AvgTiming.end(); it++){
+    double sum = 0;
+    double error2 = 0;
+    int count = 0;
+    int channelCount = 0;
+    for (std::map<int,TH1F*>::iterator it2 = it -> second.begin(); it2 != it -> second.end(); it2++){
+      channelCount++;
+      count += it2 -> second -> Integral(0,101);
+      sum += (it2 -> second -> Integral(0,101))*(it2 -> second -> GetMean());
+      error2 += (it2 -> second -> GetRMS())*(it2 -> second -> GetRMS())*( it2 -> second -> Integral(0,101));
+    };
+
+    graph2 -> SetBinContent( iBin , sum/count  );
+    graph2 -> SetBinError(iBin , sqrt(error2/count/channelCount) );
+    sprintf(binLabel,"%d",it -> first);
+    graph2 -> GetXaxis() -> SetBinLabel( iBin , binLabel );
+    iBin++;
+  };
 
 };
