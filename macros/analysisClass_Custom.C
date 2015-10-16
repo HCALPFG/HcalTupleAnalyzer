@@ -105,12 +105,12 @@ void analysisClass::loop(){
       hf_occupancy[lumiIndex] -> Fill( hfDigi.ieta() , hfDigi.iphi() );
       // if ((hfDigi.iphi() != 21) || (hfDigi.iphi() != 23)) continue;
       if (hfDigi.iphi() == 21){
-        for (int iTS = 0; iTS != 3; iTS++){
+        for (int iTS = 0; iTS != 4; iTS++){
           hf21_signal[lumiIndex] -> Fill( iTS , hfDigi.fc(iTS) );
         };
       };
       if (hfDigi.iphi() == 23){
-        for (int iTS = 0; iTS != 3; iTS++){
+        for (int iTS = 0; iTS != 4; iTS++){
           hf23_signal[lumiIndex] -> Fill( iTS , hfDigi.fc(iTS) );
         };
       };
