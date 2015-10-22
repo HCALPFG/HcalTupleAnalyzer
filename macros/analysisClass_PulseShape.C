@@ -75,6 +75,9 @@ void analysisClass::loop(){
     int runNumber = tuple_tree -> run;
     int lumiSection = tuple_tree -> ls;
     int eventNumber = tuple_tree -> event;
+
+    if ( (i + 1) % 10000 == 0 ) std::cout << "Processing event " << i + 1 << "/" << n_events << std::endl;
+
     if (std::find(eventListMap.begin(),eventListMap.end(),std::vector<int>{runNumber,lumiSection,eventNumber}) == eventListMap.end()) continue;
     
     sprintf(histName,"PulseShape_Central_%d_%d_%d",runNumber,lumiSection,eventNumber);

@@ -62,7 +62,7 @@ void analysisClass::loop(){
   for (int i = 0; i < n_events; ++i){
     
     tuple_tree -> GetEntry(i);
-    if ( (i + 1) % 1000 == 0 ) std::cout << "Processing event " << i + 1 << "/" << n_events << std::endl;
+    if ( (i + 1) % 10000 == 0 ) std::cout << "Processing event " << i + 1 << "/" << n_events << std::endl;
     
     //-----------------------------------------------------------------
     // Collections of HBHE, HF, HO digis
