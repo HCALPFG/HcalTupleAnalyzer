@@ -6,7 +6,14 @@
 
 
 void analysisClass::loop(){
+
+
   
+  //--------------------------------------------------------------------------------
+  // Configurables
+  //--------------------------------------------------------------------------------
+  std::vector<int> selectIPhis = {19,21,23,25};
+ 
   //--------------------------------------------------------------------------------
   // Declare HCAL tree(s)
   //--------------------------------------------------------------------------------
@@ -33,25 +40,23 @@ void analysisClass::loop(){
   //--------------------------------------------------------------------------------
   // Make histograms
   //--------------------------------------------------------------------------------
+  char histName[100];
   std::map<int,std::map<int,TH2F*>> h_emulTPEt_vs_TPEt;
   h_emulTPEt_vs_TPEt[1] = std::map<int,TH2F*>();
   h_emulTPEt_vs_TPEt[2] = std::map<int,TH2F*>();
   
-  h_emulTPEt_vs_TPEt[1][21] = makeTH2F("h_emulTPEt_vs_TPEt_1_21",50, 0.,100.,50,0.,100.);
-  h_emulTPEt_vs_TPEt[2][21] = makeTH2F("h_emulTPEt_vs_TPEt_2_21",50, 0.,100.,50,0.,100.);
-  h_emulTPEt_vs_TPEt[1][23] = makeTH2F("h_emulTPEt_vs_TPEt_1_23",50, 0.,100.,50,0.,100.);
-  h_emulTPEt_vs_TPEt[2][23] = makeTH2F("h_emulTPEt_vs_TPEt_2_23",50, 0.,100.,50,0.,100.);
-  h_emulTPEt_vs_TPEt[1][25] = makeTH2F("h_emulTPEt_vs_TPEt_1_25",50, 0.,100.,50,0.,100.);
-  h_emulTPEt_vs_TPEt[2][25] = makeTH2F("h_emulTPEt_vs_TPEt_2_25",50, 0.,100.,50,0.,100.);
-
-  TH1F * h_lumiSection = makeTH1F("h_lumiSection",497,0.5,497.5);
-
-  int lumiSectionIndex;
+  for (int iIPhi = 0; iIPhi != selectIPhis.size(); ++iIPhi){
+    sprintf(histName,"h_emulTPEt_vs_TPEt_1_%d",selectIPhis[iIPhi]);
+    h_emulTPEt_vs_TPEt[1][selectIPhis[iIPhi]] = makeTH2F(histName,50,0.,100.,50,0.,100.);
+    sprintf(histName,"h_emulTPEt_vs_TPEt_2_%d",selectIPhis[iIPhi]);
+    h_emulTPEt_vs_TPEt[2][selectIPhis[iIPhi]] = makeTH2F(histName,50,0.,100.,50,0.,100.);
+  };
+  TH1F * h_lumiSection = makeTH1F("h_lumiSection",497,0.5,497.5);  
 
   //--------------------------------------------------------------------------------
   // Loop
   //--------------------------------------------------------------------------------
-  
+  int lumiSectionIndex;
   for (int i = 0; i < n_events; ++i){
     
     tuple_tree -> GetEntry(i);
@@ -77,7 +82,7 @@ void analysisClass::loop(){
     int nHcalEmulTPs = hcalEmulTPs -> GetSize();
     for (int iHcalTP = 0; iHcalTP < nHcalTPs; ++iHcalTP){
        HcalTP hcalTP = hcalTPs -> GetConstituent<HcalTP>(iHcalTP);
-       if( ( abs(hcalTP.iphi()) != 21) && ( abs(hcalTP.iphi()) != 23) && ( abs(hcalTP.iphi()) != 25) ) continue;
+       if( std::find( selectIPhis.begin() , selectIPhis.end() , hcalTP.iphi() ) == selectIPhis.end() ) continue;
        for (int iHcalEmulTP = 0; iHcalEmulTP  < nHcalEmulTPs; ++iHcalEmulTP){
          HcalEmulTP hcalEmulTP = hcalEmulTPs -> GetConstituent<HcalEmulTP>(iHcalEmulTP);
          if ( (hcalEmulTP.ieta() == hcalTP.ieta() && (hcalEmulTP.iphi() == hcalTP.iphi()) ) ){
