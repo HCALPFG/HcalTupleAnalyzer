@@ -15,6 +15,7 @@
 #include "TH2F.h"
 #include "TH1.h"
 #include "TGraph.h"
+#include "TGraphErrors.h"
 
 
 class baseClass {
@@ -38,6 +39,7 @@ class baseClass {
   TGraph* makeTGraph(int n, const double* x, const double* y);
   TGraph* makeTGraph();
   TGraph* makeTGraph(int n);
+  TGraphErrors* makeTGraphErrors(int n, const double *x, const double *y, const double *xerr, const double *yerr);
 
   template<typename T> T* getTree(std::string tree_name, std::string file_label = std::string("no_label")){
     if ( m_treeMap.find ( tree_name ) == m_treeMap.end() ){

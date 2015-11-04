@@ -24,7 +24,7 @@ double HcalDigi::time(){
   return Time;
 }
 
-double HcalDigi::time12()  { return ( (1. * fc(1)) + (2. * fc(2)) ) / charge12(); }
+double HcalDigi::time12()  { return ( (0. * fc(1)) + (1. * fc(2)) ) / charge12(); } //Changed to TS2/TS1+TS2
 double HcalDigi::time34()  { return ( (3. * fc(3)) + (4. * fc(4)) ) / charge34(); }
 double HcalDigi::charge12(){ return ( fc(1) + fc(2) ); }
 double HcalDigi::charge34(){ return ( fc(3) + fc(4) ); }

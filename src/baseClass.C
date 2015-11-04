@@ -137,6 +137,12 @@ TGraph* baseClass::makeTGraph(int n){
   return graph;
 };
 
+TGraphErrors* baseClass::makeTGraphErrors(int n, const double *x, const double *y, const double *xerr, const double *yerr){
+  TGraphErrors* graph = new TGraphErrors(n,x,y,xerr,yerr);
+  m_objects.push_back(graph);
+  return graph;
+};
+
 void baseClass::write(){
   m_outFile -> cd();
   std::vector<TObject*>::iterator i_object   = m_objects.begin();
