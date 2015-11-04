@@ -3,6 +3,11 @@
 #include "HBHEDigi.h"
 
 void analysisClass::loop(){
+
+  //--------------------------------------------------------------------------------
+  // Configurables
+  //--------------------------------------------------------------------------------
+  const double recHitEnergyCut = 5.;
   
   //--------------------------------------------------------------------------------
   // Declare HCAL tree(s)
@@ -27,7 +32,6 @@ void analysisClass::loop(){
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiSize"      , kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRecEnergy" , kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRecTime"   , kTRUE);
-
   
   //--------------------------------------------------------------------------------
   // Loop
@@ -36,6 +40,7 @@ void analysisClass::loop(){
 
   TH1F * recHitTiming = makeTH1F("RecTiming",400,-200,200.);
   TH1F * recHitEnergy = makeTH1F("Energy",100,0,10.);
+  TH1F * occupancy = makeTH2F("Occupancy",81,-40.5,40.5,72,0.5,72.5);
 
   for (int i = 0; i < n_events; ++i){
     
@@ -49,9 +54,10 @@ void analysisClass::loop(){
     for (int iHBHEDigi = 0; iHBHEDigi < nHBHEDigis; ++iHBHEDigi){
       HBHEDigi hbheDigi = hbheDigis -> GetConstituent<HBHEDigi>(iHBHEDigi);
 
-      if (hbheDigi.energy() < 5) continue;
-      recHitTiming -> Fill(hbheDigi.recHitTime());
-      recHitEnergy -> Fill(hbheDigi.energy());
+      if (hbheDigi.energy() < recHitEnergyCut) continue;
+      recHitTiming -> Fill( hbheDigi.recHitTime() );
+      recHitEnergy -> Fill( hbheDigi.energy() );
+      occupancy -> Fill( hbheDigi.ieta() , hbheDigi.iphi() , hbheDigi.fcTotal() );
 
 
     }; 
