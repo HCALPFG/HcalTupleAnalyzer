@@ -11,13 +11,12 @@ void analysisClass::loop(){
   //--------------------------------------------------------------------------------
   // Configurables
   //--------------------------------------------------------------------------------
-  std::string eventListPath = "/afs/cern.ch/work/k/klo/hcal/L1Trigger/NTupleAnalyzer/output/ExpressPhysics_NoiseFilter_254833/ExpressPhysics254833_EventList.txt";
  
   //--------------------------------------------------------------------------------
   // Declare HCAL tree(s)
   //--------------------------------------------------------------------------------
 
-  HcalTupleTree * tuple_tree = getTree<HcalTupleTree>("tuple_tree");
+  HcalTupleTree * tuple_tree = getTree<HcalTupleTree>("skim_tree");
   int n_events = tuple_tree -> fChain -> GetEntries();
   std::cout << "n events = " << n_events << std::endl;
   
@@ -43,22 +42,6 @@ void analysisClass::loop(){
   //--------------------------------------------------------------------------------
   // Necessary Variables
   //--------------------------------------------------------------------------------
-  std::vector<std::vector<int>> eventListMap;
-  std::fstream file(eventListPath, std::ios_base::in);  
-  std::string line;
-
-  std::cout << "Loading EventList file" << std::endl;
-  while ( std::getline(file, line)){
-     std::istringstream iss(line);
-     std::vector<std::string> entries;
-     std::copy(std::istream_iterator<std::string>(iss),std::istream_iterator<std::string>(),std::back_inserter<std::vector<std::string> >(entries));
-     int runNumber = std::stoi(entries[0]);
-     int lumiSection = std::stoi(entries[1]);
-     int eventNumber = std::stoi(entries[2]);
-     eventListMap.push_back( std::vector<int> {runNumber,lumiSection,eventNumber} );
-  };
-  std::cout << "Finish loading EventList file" << std::endl;
-
 
   //--------------------------------------------------------------------------------
   // Loop
@@ -76,26 +59,6 @@ void analysisClass::loop(){
     int lumiSection = tuple_tree -> ls;
     int eventNumber = tuple_tree -> event;
 
-    if ( (i + 1) % 10000 == 0 ) std::cout << "Processing event " << i + 1 << "/" << n_events << std::endl;
-
-    if (std::find(eventListMap.begin(),eventListMap.end(),std::vector<int>{runNumber,lumiSection,eventNumber}) == eventListMap.end()) continue;
-    
-    sprintf(histName,"PulseShape_Central_%d_%d_%d",runNumber,lumiSection,eventNumber);
-    sprintf(title," Central, %d %d %d ; TS ; FC",runNumber,lumiSection,eventNumber);
-    TH1F * tempHist = makeTH1F(histName,10,-0.5,9.5);
-    tempHist -> SetTitle(title);
-
-    sprintf(histName,"PulseShape_EndCap_%d_%d_%d",runNumber,lumiSection,eventNumber);
-    sprintf(title," EndCap, %d %d %d ; TS ; FC",runNumber,lumiSection,eventNumber);
-    TH1F * tempHist3 = makeTH1F(histName,10,-0.5,9.5);
-    tempHist3 -> SetTitle(title);
-
-    sprintf(histName,"EtaPhi_%d_%d_%d",runNumber,lumiSection,eventNumber);
-    sprintf(title," %d %d %d ; i#eta ; i#phi",runNumber,lumiSection,eventNumber);
-    TH2F * tempHist2 = makeTH2F(histName,81,-40.5,40.5,72,0.5,72.5);
-    tempHist2 -> SetTitle(title);
-   
-
     //-----------------------------------------------------------------
     // Collections of HBHE
     //-----------------------------------------------------------------
@@ -106,22 +69,19 @@ void analysisClass::loop(){
     for (int iHBHEDigi = 0; iHBHEDigi < nHBHEDigis; ++iHBHEDigi){
       HBHEDigi hbheDigi = hbheDigis -> GetConstituent<HBHEDigi>(iHBHEDigi);
 
-      if ( hbheDigi.energy() < 5.0 ) continue; 
+      if ( hbheDigi.energy() < 5.0 ) continue;
+
+      if ( abs(hbheDigi.ieta()) > 12 ) continue;
+
+      if ( hbheDigi.fc(3) < 50 ) continue;
+
+      sprintf(histName,"PulseShape_%d_%d_%d_%d",runNumber,lumiSection,eventNumber,iHBHEDigi);
+      sprintf(title," %d %d %d %d  ; TS ; FC",runNumber,lumiSection,eventNumber,iHBHEDigi);
+      TH1F * tempHist = makeTH1F(histName,10,-0.5,9.5);
+      tempHist -> SetTitle(title);
       for (int its = 0; its != 10; its++){
-	if (abs(hbheDigi.ieta()) < 20){
-	  count++;
-          tempHist -> Fill ( its , hbheDigi.fc(its) );
-	} else {
-	  count3++;
-	  tempHist3 -> Fill ( its, hbheDigi.fc(its) );
-	};
-        tempHist2 -> Fill ( hbheDigi.ieta() , hbheDigi.iphi() );
+        tempHist -> Fill ( its , hbheDigi.fc(its) );
       };
-      // int rawIndex = hbheDigi.getRawIndex();
-      // std::cout << tuple_tree -> HBHEDigiFC -> at(rawIndex).size() << std::endl;
     };
-    tempHist -> Scale( 1./count );
-    tempHist3 -> Scale( 1./count3 );
-    
   };
 };
