@@ -20,7 +20,8 @@ void analysisClass::loop(){
   //--------------------------------------------------------------------------------
   // Configurables
   //--------------------------------------------------------------------------------
-  const double recHitEnergyCut = 0.;
+  const double recHitEnergyCut = 5.;
+  const int nChannels = 216;
 
   //--------------------------------------------------------------------------------
   // Declare HCAL tree(s)
@@ -49,7 +50,7 @@ void analysisClass::loop(){
   //--------------------------------------------------------------------------------
   // Histograms
   //--------------------------------------------------------------------------------
-  TH2F* laserOccup_vs_noLaserOccp = makeTH2F("laserOccup_vs_noLaserOccp",100,0.,10000.,100,0.,10000.);
+  TH2F* laserOccup_vs_noLaserOccp = makeTH2F("laserOccup_vs_noLaserOccp",100,0.,1,100,0.,1.);
 
   //--------------------------------------------------------------------------------
   // Loop
@@ -67,16 +68,20 @@ void analysisClass::loop(){
 
     int laserRegion_occupancy = 0;
     int noLaserRegion_occupancy = 0;
+    int totalOccupancy = 0;
     for (int iHBHEDigi = 0; iHBHEDigi < nHBHEDigis; ++iHBHEDigi){
       HBHEDigi hbheDigi = hbheDigis -> GetConstituent<HBHEDigi>(iHBHEDigi);
 
       if (hbheDigi.energy() < recHitEnergyCut) continue;
+      totalOccupancy++;
       if ( isLaserRegion( hbheDigi.ieta() , hbheDigi.iphi() ) ) {
-        laserRegion_occupancy += hbheDigi.fcTotal();
+        //laserRegion_occupancy += hbheDigi.fcTotal();
+	laserRegion_occupancy++;
       } else {
-        noLaserRegion_occupancy += hbheDigi.fcTotal();
+	noLaserRegion_occupancy++;
+        //noLaserRegion_occupancy += hbheDigi.fcTotal();
       };
     };
-    laserOccup_vs_noLaserOccp -> Fill( laserRegion_occupancy ,  noLaserRegion_occupancy );
+    laserOccup_vs_noLaserOccp -> Fill( (double)laserRegion_occupancy/(double)totalOccupancy ,  (double)noLaserRegion_occupancy/(double)totalOccupancy );
   };
 }
