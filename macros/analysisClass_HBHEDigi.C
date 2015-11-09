@@ -30,17 +30,37 @@ void analysisClass::loop(){
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIPhi"      , kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiSize"      , kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRecEnergy" , kTRUE);
-  
+
+  //--------------------------------------------------------------------------------
+  // Histograms
+  //--------------------------------------------------------------------------------
+
+  //TH1F * recHitTiming = makeTH1F("RecTiming",400,-200,200.);
+  TH1F * recHitEnergy = makeTH1F("Energy",30,0,1000.);
+  recHitEnergy -> SetTitle(" ; Rechit Energy [GeV] ; ");
+
+  TH2F * occupancy_ts3 = makeTH2F("occupancy_ts3",81,-40.5,40.5,72,0.5,72.5);
+  occupancy_ts3 -> SetTitle(" Weighted with TS3 ; i#eta ; i#phi ");
+
+  TH2F * occupancy_ts4 = makeTH2F("occupancy_ts4",81,-40.5,40.5,72,0.5,72.5);
+  occupancy_ts4 -> SetTitle(" Weighted with TS4 ; i#eta ; i#phi ");
+
+  TH2F * noOfDigiHit = makeTH2F("noOfDigiHit",81,-40.5,40.5,72,0.5,72.5);
+  noOfDigiHit -> SetTitle(" Weighted with 1 (Counting the number of digi only) ; i#eta ; i#phi ");
+
+  TH1F * ts3_Div_ts3ts5 = makeTH1F("ts3_Div_ts3ts5",30,0.,1.);
+  ts3_Div_ts3ts5 -> SetTitle(" ; TS3/(TS3+TS5) ; ");
+
+  TH2F * recHitEnergy_ts3_Div_ts3ts5 = makeTH2F("recHitEnergy_ts3_Div_ts3ts5",30,0,1000.,30,0.,1.);
+  recHitEnergy_ts3_Div_ts3ts5 -> SetTitle(" ; Rechit Energy [GeV] ; TS3/(TS3+TS5) ");
+
+  TH2F * ieta_ts3_Div_ts3ts5 = makeTH2F("ieta_ts3_Div_ts3ts5",81,-40.5,40.5,30,0.,1.);
+  ieta_ts3_Div_ts3ts5 -> SetTitle(" ; i#eta ; TS3/(TS3+TS5) ");
+
   //--------------------------------------------------------------------------------
   // Loop
   //--------------------------------------------------------------------------------
   int nHBHEDigis;
-
-  TH1F * recHitTiming = makeTH1F("RecTiming",400,-200,200.);
-  TH1F * recHitEnergy = makeTH1F("Energy",100,0,10.);
-  TH2F * occupancy_ts3 = makeTH2F("occupancy_ts3",81,-40.5,40.5,72,0.5,72.5);
-  TH2F * occupancy_ts4 = makeTH2F("occupancy_ts4",81,-40.5,40.5,72,0.5,72.5);
-  TH2F * noOfDigiHit = makeTH2F("noOfDigiHit",81,-40.5,40.5,72,0.5,72.5);
 
   for (int i = 0; i < n_events; ++i){
     
@@ -56,10 +76,21 @@ void analysisClass::loop(){
 
       if (hbheDigi.energy() < recHitEnergyCut) continue;
       // recHitTiming -> Fill( hbheDigi.recHitTime() );
+      
+      double ieta = hbheDigi.ieta();
+      double iphi = hbheDigi.iphi();
+      double energy = hbheDigi.energy();
+      double fc_TS3 = hbheDigi.fc(3);
+      double fc_TS4 = hbheDigi.fc(4);
+      double fc_TS5 = hbheDigi.fc(5);
+
       recHitEnergy -> Fill( hbheDigi.energy() );
-      occupancy_ts3 -> Fill( hbheDigi.ieta() , hbheDigi.iphi() , hbheDigi.fc(3) );
-      occupancy_ts4 -> Fill( hbheDigi.ieta() , hbheDigi.iphi() , hbheDigi.fc(4) );
-      noOfDigiHit -> Fill( hbheDigi.ieta() , hbheDigi.iphi() );
+      occupancy_ts3 -> Fill( ieta , iphi , fc_TS3 );
+      occupancy_ts4 -> Fill( ieta , iphi , fc_TS4 );
+      noOfDigiHit -> Fill( ieta , iphi );
+      ts3_Div_ts3ts5 -> Fill( fc_TS3/(fc_TS3+fc_TS5) );
+      recHitEnergy_ts3_Div_ts3ts5 -> Fill( energy , fc_TS3/(fc_TS3+fc_TS5) );
+      ieta_ts3_Div_ts3ts5 -> Fill( ieta , fc_TS3/(fc_TS3+fc_TS5)  );
 
     };
   };
