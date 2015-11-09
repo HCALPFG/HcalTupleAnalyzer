@@ -36,7 +36,7 @@ void analysisClass::loop(){
   //--------------------------------------------------------------------------------
 
   //TH1F * recHitTiming = makeTH1F("RecTiming",400,-200,200.);
-  TH1F * recHitEnergy = makeTH1F("Energy",30,0,20.);
+  TH1F * recHitEnergy = makeTH1F("Energy",30,0,1000.);
   recHitEnergy -> SetTitle(" ; Rechit Energy [GeV] ; ");
 
   TH2F * occupancy_ts3 = makeTH2F("occupancy_ts3",81,-40.5,40.5,72,0.5,72.5);
@@ -51,7 +51,7 @@ void analysisClass::loop(){
   TH1F * ts3_Div_ts3ts5 = makeTH1F("ts3_Div_ts3ts5",30,0.,1.);
   ts3_Div_ts3ts5 -> SetTitle(" ; TS3/(TS3+TS5) ; ");
 
-  TH2F * recHitEnergy_ts3_Div_ts3ts5 = makeTH2F("recHitEnergy_ts3_Div_ts3ts5",30,0,20.,30,0.,1.);
+  TH2F * recHitEnergy_ts3_Div_ts3ts5 = makeTH2F("recHitEnergy_ts3_Div_ts3ts5",30,0,1000.,30,0.,1.);
   recHitEnergy_ts3_Div_ts3ts5 -> SetTitle(" ; Rechit Energy [GeV] ; TS3/(TS3+TS5) ");
 
   TH2F * ieta_ts3_Div_ts3ts5 = makeTH2F("ieta_ts3_Div_ts3ts5",81,-40.5,40.5,30,0.,1.);
