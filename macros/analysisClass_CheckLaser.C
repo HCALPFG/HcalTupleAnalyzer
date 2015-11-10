@@ -2,12 +2,16 @@
 #include "HcalTupleTree.h"
 #include "HBHEDigi.h"
 
-bool isLaserRegion(int ieta,int iphi){
-  if (ieta > 0){
-    if ((iphi >= 50) && (iphi <= 54)){
-      return false;
-    };
-  } else {
+//__________________________________________________________________________________________________________________________________
+// Author: Lucien Lo
+// Code to investigate the performance of laser filters in Run 2015D data
+// 
+// The logic is with reference to the laser filter in 2012: http://cmslxr.fnal.gov/source/EventFilter/HcalRawToDigi/plugins/HcalLaserHBHEHFFilter2012.cc
+//__________________________________________________________________________________________________________________________________
+
+bool isLaserRegion(int ieta,int iphi,int subDet){
+  const int HcalBarrel = 1;
+  if ((ieta < 0) && (subDet == HcalBarrel){
     if ( ( (iphi >=15) && (iphi <= 18) ) || ( (iphi >= 27) && (iphi <=34) ) ){
       return false;
     };
@@ -20,7 +24,9 @@ void analysisClass::loop(){
   //--------------------------------------------------------------------------------
   // Configurables
   //--------------------------------------------------------------------------------
-  const double recHitEnergyCut = 0.;
+  const double recHitEnergyCut = 1.;
+  const int nBad = 72*3; // 3 bad RBXes, 72 channels each
+  const int nGood = 2592*2 - nBad;  // remaining HBHE channels are 'good'
 
   //--------------------------------------------------------------------------------
   // Declare HCAL tree(s)
@@ -35,21 +41,17 @@ void analysisClass::loop(){
   //--------------------------------------------------------------------------------
   
   tuple_tree -> fChain -> SetBranchStatus("*"               , kFALSE);
-  tuple_tree -> fChain -> SetBranchStatus("run"             , kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("event"           , kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("ls"              , kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiFC"        , kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiDepth"     , kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIEta"      , kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiIPhi"      , kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiSize"      , kTRUE);
   tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRecEnergy" , kTRUE);
-  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiRecTime"   , kTRUE);
+  tuple_tree -> fChain -> SetBranchStatus("HBHEDigiSubdet"    , kTRUE);
 
   //--------------------------------------------------------------------------------
   // Histograms
   //--------------------------------------------------------------------------------
-  TH2F* laserOccup_vs_noLaserOccp = makeTH2F("laserOccup_vs_noLaserOccp",100,0.,10000.,100,0.,10000.);
+  TH2F* noLaserOccup_vs_laserOccp = makeTH2F("noLaserOccup_vs_laserOccp",50,0.,1.,50,0.,1.);
+  noLaserOccup_vs_laserOccp -> SetTitle(" ; Bad RBX Fraction ; Good RBX Fraction ");
 
   //--------------------------------------------------------------------------------
   // Loop
@@ -65,18 +67,18 @@ void analysisClass::loop(){
     
     nHBHEDigis = hbheDigis -> GetSize();
 
-    int laserRegion_occupancy = 0;
-    int noLaserRegion_occupancy = 0;
+    double laserRegion_occupancy = 0;
+    double noLaserRegion_occupancy = 0;
     for (int iHBHEDigi = 0; iHBHEDigi < nHBHEDigis; ++iHBHEDigi){
       HBHEDigi hbheDigi = hbheDigis -> GetConstituent<HBHEDigi>(iHBHEDigi);
 
       if (hbheDigi.energy() < recHitEnergyCut) continue;
-      if ( isLaserRegion( hbheDigi.ieta() , hbheDigi.iphi() ) ) {
-        laserRegion_occupancy += hbheDigi.fcTotal();
+      if ( isLaserRegion( hbheDigi.ieta() , hbheDigi.iphi() , hbheDigi.subdet() ) ) {
+        laserRegion_occupancy++;
       } else {
-        noLaserRegion_occupancy += hbheDigi.fcTotal();
+        noLaserRegion_occupancy++;
       };
     };
-    laserOccup_vs_noLaserOccp -> Fill( laserRegion_occupancy ,  noLaserRegion_occupancy );
+    noLaserOccup_vs_laserOccp -> Fill( noLaserRegion_occupancy/((double)nBad ) ,  laserRegion_occupancy/((double)nGood) );
   };
 }
