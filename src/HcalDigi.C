@@ -47,6 +47,13 @@ float HcalDigi::fcTotal() {
   return retval;
 }
 
+int HcalDigi::adcTotal() {
+  int retval = 0.;
+  for (int i = 0; i < size(); ++i){
+    retval += adc(i);
+  }
+  return retval;
+}
 
 int HcalDigi::maxADC(){
   int max = -999;

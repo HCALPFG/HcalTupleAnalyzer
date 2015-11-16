@@ -26,6 +26,7 @@ class HcalDigi : public Object {
   virtual int   capid (int i) = 0;
   
   float  fcTotal();
+  int    adcTotal();
   double time();
   double time12();
   double time34();
