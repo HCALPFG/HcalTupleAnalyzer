@@ -40,7 +40,7 @@ if "HOSTNAME" in os.environ:
 
 use_eos = False
 for input_folder in args.input_folders:
-    if "/eos/" in input_folder:
+    if input_folder.startswith("/eos/"):
         use_eos = True
         break
 
