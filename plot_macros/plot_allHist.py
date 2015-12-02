@@ -3,7 +3,7 @@ import ROOT
 from PlotParser import parser
 
 parser.add_argument('-d', metavar="drawOption", dest='drawOption',action="store" , required=False, help='draw option',type=str,default="colz")
-parser.add_argument('-l', metavar="logz", dest='logz',action="store_true" , required=False, help='draw option',default=False)
+parser.add_argument('-l', dest='logz',action="store_true" , required=False, help='draw option',default=False)
 
 ROOT.gROOT.SetBatch(ROOT.kTRUE)
 args = parser.parse_args()
