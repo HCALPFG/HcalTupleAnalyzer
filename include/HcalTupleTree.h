@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Fri Jan 22 14:11:47 2016 by ROOT version 5.34/32
+// Mon Sep 28 15:15:55 2015 by ROOT version 6.02/05
 // from TTree tree/
-// found on file: test_uTCA.root // Root output of analysis_uHBHECommissioning_cfg.py
+// found on file: /afs/cern.ch/user/k/klo/eos/cms/store/user/klo/Collision0T_255981-256583/HcalTuple_Collision0T_255981-256583_1.root
 //////////////////////////////////////////////////////////
 
 #ifndef HcalTupleTree_h
@@ -14,17 +14,27 @@ using namespace std;
 #include <TFile.h>
 
 // Header file for the classes stored in the TTree if any.
+#include "string"
 #include "vector"
 #include "vector"
-
-// Fixed size dimensions of array or collections stored in the TTree if any.
+#include "vector"
+#include "vector"
+#include "vector"
+#include "vector"
 
 class HcalTupleTree {
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
 
+// Fixed size dimensions of array or collections stored in the TTree if any.
+
    // Declaration of leaf types
+   string          *HLTKey;
+   vector<string>  *HLTInsideDatasetTriggerNames;
+   vector<string>  *HLTOutsideDatasetTriggerNames;
+   vector<bool>    *HLTInsideDatasetTriggerDecisions;
+   vector<bool>    *HLTOutsideDatasetTriggerDecisions;
    vector<float>   *HBHEDigiEta;
    vector<float>   *HBHEDigiPhi;
    vector<float>   *HBHEDigiRecEnergy;
@@ -58,6 +68,10 @@ public :
    vector<vector<float> > *HODigiNomFC;
    vector<vector<float> > *HODigiPedFC;
    vector<vector<float> > *HODigiRCGain;
+   vector<int>     *FEDBCN;
+   vector<int>     *FEDNumber;
+   vector<int>     *FEDORN;
+   vector<int>     *FEDSize;
    vector<int>     *HBHEDigiDepth;
    vector<int>     *HBHEDigiElectronicsID;
    vector<int>     *HBHEDigiFiberIdleOffset;
@@ -85,16 +99,11 @@ public :
    vector<int>     *HODigiRawID;
    vector<int>     *HODigiSize;
    vector<int>     *HODigiSubdet;
-   vector<int>     *HcalTriggerPrimitiveCompressedEtSOI;
-   vector<int>     *HcalTriggerPrimitiveFineGrainSOI;
-   vector<int>     *HcalTriggerPrimitiveIEta;
-   vector<int>     *HcalTriggerPrimitiveIPhi;
-   vector<int>     *HcalTriggerPrimitivePresamples;
-   vector<int>     *HcalTriggerPrimitiveSize;
-   vector<int>     *HcalUnpackerBadDigiDepth;
-   vector<int>     *HcalUnpackerBadDigiIEta;
-   vector<int>     *HcalUnpackerBadDigiIPhi;
-   vector<int>     *HcalUnpackerBadDigiSubdet;
+   vector<int>     *HLTBits;
+   vector<int>     *HLTInsideDatasetTriggerPrescales;
+   vector<int>     *HLTOutsideDatasetTriggerPrescales;
+   vector<int>     *L1PhysBits;
+   vector<int>     *L1TechBits;
    vector<vector<int> > *HBHEDigiADC;
    vector<vector<int> > *HBHEDigiCapID;
    vector<vector<int> > *HBHEDigiDV;
@@ -119,28 +128,17 @@ public :
    vector<vector<int> > *HODigiFiberChan;
    vector<vector<int> > *HODigiLADC;
    vector<vector<int> > *HODigiRaw;
-   vector<vector<int> > *HcalTriggerPrimitiveCompressedEt;
-   vector<vector<int> > *HcalTriggerPrimitiveFineGrain;
-   vector<vector<int> > *HcalTriggerPrimitiveHBHEDigiIndex;
-   vector<vector<int> > *HcalTriggerPrimitiveHFDigiIndex;
    UInt_t          bx;
    UInt_t          event;
    UInt_t          ls;
    UInt_t          run;
-   UInt_t          HcalUnpackerAnyValid;
-   UInt_t          HcalUnpackerBSYSpigots;
-   UInt_t          HcalUnpackerBadQualityDigis;
-   UInt_t          HcalUnpackerEmptySpigots;
-   UInt_t          HcalUnpackerErrorFree;
-   UInt_t          HcalUnpackerHasCalib;
-   UInt_t          HcalUnpackerNZS;
-   UInt_t          HcalUnpackerOFWSpigots;
-   UInt_t          HcalUnpackerSpigotFormatErrors;
-   UInt_t          HcalUnpackerTotalDigis;
-   UInt_t          HcalUnpackerTotalHOTPDigis;
-   UInt_t          HcalUnpackerTotalTPDigis;
 
    // List of branches
+   TBranch        *b_HLTKey;   //!
+   TBranch        *b_HLTInsideDatasetTriggerNames;   //!
+   TBranch        *b_HLTOutsideDatasetTriggerNames;   //!
+   TBranch        *b_HLTInsideDatasetTriggerDecisions;   //!
+   TBranch        *b_HLTOutsideDatasetTriggerDecisions;   //!
    TBranch        *b_HBHEDigiEta;   //!
    TBranch        *b_HBHEDigiPhi;   //!
    TBranch        *b_HBHEDigiRecEnergy;   //!
@@ -174,6 +172,10 @@ public :
    TBranch        *b_HODigiNomFC;   //!
    TBranch        *b_HODigiPedFC;   //!
    TBranch        *b_HODigiRCGain;   //!
+   TBranch        *b_FEDBCN;   //!
+   TBranch        *b_FEDNumber;   //!
+   TBranch        *b_FEDORN;   //!
+   TBranch        *b_FEDSize;   //!
    TBranch        *b_HBHEDigiDepth;   //!
    TBranch        *b_HBHEDigiElectronicsID;   //!
    TBranch        *b_HBHEDigiFiberIdleOffset;   //!
@@ -201,16 +203,11 @@ public :
    TBranch        *b_HODigiRawID;   //!
    TBranch        *b_HODigiSize;   //!
    TBranch        *b_HODigiSubdet;   //!
-   TBranch        *b_HcalTriggerPrimitiveCompressedEtSOI;   //!
-   TBranch        *b_HcalTriggerPrimitiveFineGrainSOI;   //!
-   TBranch        *b_HcalTriggerPrimitiveIEta;   //!
-   TBranch        *b_HcalTriggerPrimitiveIPhi;   //!
-   TBranch        *b_HcalTriggerPrimitivePresamples;   //!
-   TBranch        *b_HcalTriggerPrimitiveSize;   //!
-   TBranch        *b_HcalUnpackerBadDigiDepth;   //!
-   TBranch        *b_HcalUnpackerBadDigiIEta;   //!
-   TBranch        *b_HcalUnpackerBadDigiIPhi;   //!
-   TBranch        *b_HcalUnpackerBadDigiSubdet;   //!
+   TBranch        *b_HLTBits;   //!
+   TBranch        *b_HLTInsideDatasetTriggerPrescales;   //!
+   TBranch        *b_HLTOutsideDatasetTriggerPrescales;   //!
+   TBranch        *b_L1PhysBits;   //!
+   TBranch        *b_L1TechBits;   //!
    TBranch        *b_HBHEDigiADC;   //!
    TBranch        *b_HBHEDigiCapID;   //!
    TBranch        *b_HBHEDigiDV;   //!
@@ -235,26 +232,10 @@ public :
    TBranch        *b_HODigiFiberChan;   //!
    TBranch        *b_HODigiLADC;   //!
    TBranch        *b_HODigiRaw;   //!
-   TBranch        *b_HcalTriggerPrimitiveCompressedEt;   //!
-   TBranch        *b_HcalTriggerPrimitiveFineGrain;   //!
-   TBranch        *b_HcalTriggerPrimitiveHBHEDigiIndex;   //!
-   TBranch        *b_HcalTriggerPrimitiveHFDigiIndex;   //!
    TBranch        *b_bx;   //!
    TBranch        *b_event;   //!
    TBranch        *b_ls;   //!
    TBranch        *b_run;   //!
-   TBranch        *b_HcalUnpackerAnyValid;   //!
-   TBranch        *b_HcalUnpackerBSYSpigots;   //!
-   TBranch        *b_HcalUnpackerBadQualityDigis;   //!
-   TBranch        *b_HcalUnpackerEmptySpigots;   //!
-   TBranch        *b_HcalUnpackerErrorFree;   //!
-   TBranch        *b_HcalUnpackerHasCalib;   //!
-   TBranch        *b_HcalUnpackerNZS;   //!
-   TBranch        *b_HcalUnpackerOFWSpigots;   //!
-   TBranch        *b_HcalUnpackerSpigotFormatErrors;   //!
-   TBranch        *b_HcalUnpackerTotalDigis;   //!
-   TBranch        *b_HcalUnpackerTotalHOTPDigis;   //!
-   TBranch        *b_HcalUnpackerTotalTPDigis;   //!
 
    HcalTupleTree(TTree *tree=0);
    virtual ~HcalTupleTree();
@@ -275,11 +256,11 @@ HcalTupleTree::HcalTupleTree(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("test_uTCA.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/afs/cern.ch/user/k/klo/eos/cms/store/user/klo/Collision0T_255981-256583/HcalTuple_Collision0T_255981-256583_1.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("test_uTCA.root");
+         f = new TFile("/afs/cern.ch/user/k/klo/eos/cms/store/user/klo/Collision0T_255981-256583/HcalTuple_Collision0T_255981-256583_1.root");
       }
-      TDirectory * dir = (TDirectory*)f->Get("test_uTCA.root:/HcalTupleTree");
+      TDirectory * dir = (TDirectory*)f->Get("/afs/cern.ch/user/k/klo/eos/cms/store/user/klo/Collision0T_255981-256583/HcalTuple_Collision0T_255981-256583_1.root:/hcalTupleTree");
       dir->GetObject("tree",tree);
 
    }
@@ -322,6 +303,11 @@ void HcalTupleTree::Init(TTree *tree)
    // (once per file to be processed).
 
    // Set object pointer
+   HLTKey = 0;
+   HLTInsideDatasetTriggerNames = 0;
+   HLTOutsideDatasetTriggerNames = 0;
+   HLTInsideDatasetTriggerDecisions = 0;
+   HLTOutsideDatasetTriggerDecisions = 0;
    HBHEDigiEta = 0;
    HBHEDigiPhi = 0;
    HBHEDigiRecEnergy = 0;
@@ -355,6 +341,10 @@ void HcalTupleTree::Init(TTree *tree)
    HODigiNomFC = 0;
    HODigiPedFC = 0;
    HODigiRCGain = 0;
+   FEDBCN = 0;
+   FEDNumber = 0;
+   FEDORN = 0;
+   FEDSize = 0;
    HBHEDigiDepth = 0;
    HBHEDigiElectronicsID = 0;
    HBHEDigiFiberIdleOffset = 0;
@@ -382,16 +372,11 @@ void HcalTupleTree::Init(TTree *tree)
    HODigiRawID = 0;
    HODigiSize = 0;
    HODigiSubdet = 0;
-   HcalTriggerPrimitiveCompressedEtSOI = 0;
-   HcalTriggerPrimitiveFineGrainSOI = 0;
-   HcalTriggerPrimitiveIEta = 0;
-   HcalTriggerPrimitiveIPhi = 0;
-   HcalTriggerPrimitivePresamples = 0;
-   HcalTriggerPrimitiveSize = 0;
-   HcalUnpackerBadDigiDepth = 0;
-   HcalUnpackerBadDigiIEta = 0;
-   HcalUnpackerBadDigiIPhi = 0;
-   HcalUnpackerBadDigiSubdet = 0;
+   HLTBits = 0;
+   HLTInsideDatasetTriggerPrescales = 0;
+   HLTOutsideDatasetTriggerPrescales = 0;
+   L1PhysBits = 0;
+   L1TechBits = 0;
    HBHEDigiADC = 0;
    HBHEDigiCapID = 0;
    HBHEDigiDV = 0;
@@ -416,16 +401,17 @@ void HcalTupleTree::Init(TTree *tree)
    HODigiFiberChan = 0;
    HODigiLADC = 0;
    HODigiRaw = 0;
-   HcalTriggerPrimitiveCompressedEt = 0;
-   HcalTriggerPrimitiveFineGrain = 0;
-   HcalTriggerPrimitiveHBHEDigiIndex = 0;
-   HcalTriggerPrimitiveHFDigiIndex = 0;
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
    fCurrent = -1;
    fChain->SetMakeClass(1);
 
+   fChain->SetBranchAddress("HLTKey", &HLTKey, &b_HLTKey);
+   fChain->SetBranchAddress("HLTInsideDatasetTriggerNames", &HLTInsideDatasetTriggerNames, &b_HLTInsideDatasetTriggerNames);
+   fChain->SetBranchAddress("HLTOutsideDatasetTriggerNames", &HLTOutsideDatasetTriggerNames, &b_HLTOutsideDatasetTriggerNames);
+   fChain->SetBranchAddress("HLTInsideDatasetTriggerDecisions", &HLTInsideDatasetTriggerDecisions, &b_HLTInsideDatasetTriggerDecisions);
+   fChain->SetBranchAddress("HLTOutsideDatasetTriggerDecisions", &HLTOutsideDatasetTriggerDecisions, &b_HLTOutsideDatasetTriggerDecisions);
    fChain->SetBranchAddress("HBHEDigiEta", &HBHEDigiEta, &b_HBHEDigiEta);
    fChain->SetBranchAddress("HBHEDigiPhi", &HBHEDigiPhi, &b_HBHEDigiPhi);
    fChain->SetBranchAddress("HBHEDigiRecEnergy", &HBHEDigiRecEnergy, &b_HBHEDigiRecEnergy);
@@ -459,6 +445,10 @@ void HcalTupleTree::Init(TTree *tree)
    fChain->SetBranchAddress("HODigiNomFC", &HODigiNomFC, &b_HODigiNomFC);
    fChain->SetBranchAddress("HODigiPedFC", &HODigiPedFC, &b_HODigiPedFC);
    fChain->SetBranchAddress("HODigiRCGain", &HODigiRCGain, &b_HODigiRCGain);
+   fChain->SetBranchAddress("FEDBCN", &FEDBCN, &b_FEDBCN);
+   fChain->SetBranchAddress("FEDNumber", &FEDNumber, &b_FEDNumber);
+   fChain->SetBranchAddress("FEDORN", &FEDORN, &b_FEDORN);
+   fChain->SetBranchAddress("FEDSize", &FEDSize, &b_FEDSize);
    fChain->SetBranchAddress("HBHEDigiDepth", &HBHEDigiDepth, &b_HBHEDigiDepth);
    fChain->SetBranchAddress("HBHEDigiElectronicsID", &HBHEDigiElectronicsID, &b_HBHEDigiElectronicsID);
    fChain->SetBranchAddress("HBHEDigiFiberIdleOffset", &HBHEDigiFiberIdleOffset, &b_HBHEDigiFiberIdleOffset);
@@ -486,16 +476,11 @@ void HcalTupleTree::Init(TTree *tree)
    fChain->SetBranchAddress("HODigiRawID", &HODigiRawID, &b_HODigiRawID);
    fChain->SetBranchAddress("HODigiSize", &HODigiSize, &b_HODigiSize);
    fChain->SetBranchAddress("HODigiSubdet", &HODigiSubdet, &b_HODigiSubdet);
-   fChain->SetBranchAddress("HcalTriggerPrimitiveCompressedEtSOI", &HcalTriggerPrimitiveCompressedEtSOI, &b_HcalTriggerPrimitiveCompressedEtSOI);
-   fChain->SetBranchAddress("HcalTriggerPrimitiveFineGrainSOI", &HcalTriggerPrimitiveFineGrainSOI, &b_HcalTriggerPrimitiveFineGrainSOI);
-   fChain->SetBranchAddress("HcalTriggerPrimitiveIEta", &HcalTriggerPrimitiveIEta, &b_HcalTriggerPrimitiveIEta);
-   fChain->SetBranchAddress("HcalTriggerPrimitiveIPhi", &HcalTriggerPrimitiveIPhi, &b_HcalTriggerPrimitiveIPhi);
-   fChain->SetBranchAddress("HcalTriggerPrimitivePresamples", &HcalTriggerPrimitivePresamples, &b_HcalTriggerPrimitivePresamples);
-   fChain->SetBranchAddress("HcalTriggerPrimitiveSize", &HcalTriggerPrimitiveSize, &b_HcalTriggerPrimitiveSize);
-   fChain->SetBranchAddress("HcalUnpackerBadDigiDepth", &HcalUnpackerBadDigiDepth, &b_HcalUnpackerBadDigiDepth);
-   fChain->SetBranchAddress("HcalUnpackerBadDigiIEta", &HcalUnpackerBadDigiIEta, &b_HcalUnpackerBadDigiIEta);
-   fChain->SetBranchAddress("HcalUnpackerBadDigiIPhi", &HcalUnpackerBadDigiIPhi, &b_HcalUnpackerBadDigiIPhi);
-   fChain->SetBranchAddress("HcalUnpackerBadDigiSubdet", &HcalUnpackerBadDigiSubdet, &b_HcalUnpackerBadDigiSubdet);
+   fChain->SetBranchAddress("HLTBits", &HLTBits, &b_HLTBits);
+   fChain->SetBranchAddress("HLTInsideDatasetTriggerPrescales", &HLTInsideDatasetTriggerPrescales, &b_HLTInsideDatasetTriggerPrescales);
+   fChain->SetBranchAddress("HLTOutsideDatasetTriggerPrescales", &HLTOutsideDatasetTriggerPrescales, &b_HLTOutsideDatasetTriggerPrescales);
+   fChain->SetBranchAddress("L1PhysBits", &L1PhysBits, &b_L1PhysBits);
+   fChain->SetBranchAddress("L1TechBits", &L1TechBits, &b_L1TechBits);
    fChain->SetBranchAddress("HBHEDigiADC", &HBHEDigiADC, &b_HBHEDigiADC);
    fChain->SetBranchAddress("HBHEDigiCapID", &HBHEDigiCapID, &b_HBHEDigiCapID);
    fChain->SetBranchAddress("HBHEDigiDV", &HBHEDigiDV, &b_HBHEDigiDV);
@@ -520,26 +505,10 @@ void HcalTupleTree::Init(TTree *tree)
    fChain->SetBranchAddress("HODigiFiberChan", &HODigiFiberChan, &b_HODigiFiberChan);
    fChain->SetBranchAddress("HODigiLADC", &HODigiLADC, &b_HODigiLADC);
    fChain->SetBranchAddress("HODigiRaw", &HODigiRaw, &b_HODigiRaw);
-   fChain->SetBranchAddress("HcalTriggerPrimitiveCompressedEt", &HcalTriggerPrimitiveCompressedEt, &b_HcalTriggerPrimitiveCompressedEt);
-   fChain->SetBranchAddress("HcalTriggerPrimitiveFineGrain", &HcalTriggerPrimitiveFineGrain, &b_HcalTriggerPrimitiveFineGrain);
-   fChain->SetBranchAddress("HcalTriggerPrimitiveHBHEDigiIndex", &HcalTriggerPrimitiveHBHEDigiIndex, &b_HcalTriggerPrimitiveHBHEDigiIndex);
-   fChain->SetBranchAddress("HcalTriggerPrimitiveHFDigiIndex", &HcalTriggerPrimitiveHFDigiIndex, &b_HcalTriggerPrimitiveHFDigiIndex);
    fChain->SetBranchAddress("bx", &bx, &b_bx);
    fChain->SetBranchAddress("event", &event, &b_event);
    fChain->SetBranchAddress("ls", &ls, &b_ls);
    fChain->SetBranchAddress("run", &run, &b_run);
-   fChain->SetBranchAddress("HcalUnpackerAnyValid", &HcalUnpackerAnyValid, &b_HcalUnpackerAnyValid);
-   fChain->SetBranchAddress("HcalUnpackerBSYSpigots", &HcalUnpackerBSYSpigots, &b_HcalUnpackerBSYSpigots);
-   fChain->SetBranchAddress("HcalUnpackerBadQualityDigis", &HcalUnpackerBadQualityDigis, &b_HcalUnpackerBadQualityDigis);
-   fChain->SetBranchAddress("HcalUnpackerEmptySpigots", &HcalUnpackerEmptySpigots, &b_HcalUnpackerEmptySpigots);
-   fChain->SetBranchAddress("HcalUnpackerErrorFree", &HcalUnpackerErrorFree, &b_HcalUnpackerErrorFree);
-   fChain->SetBranchAddress("HcalUnpackerHasCalib", &HcalUnpackerHasCalib, &b_HcalUnpackerHasCalib);
-   fChain->SetBranchAddress("HcalUnpackerNZS", &HcalUnpackerNZS, &b_HcalUnpackerNZS);
-   fChain->SetBranchAddress("HcalUnpackerOFWSpigots", &HcalUnpackerOFWSpigots, &b_HcalUnpackerOFWSpigots);
-   fChain->SetBranchAddress("HcalUnpackerSpigotFormatErrors", &HcalUnpackerSpigotFormatErrors, &b_HcalUnpackerSpigotFormatErrors);
-   fChain->SetBranchAddress("HcalUnpackerTotalDigis", &HcalUnpackerTotalDigis, &b_HcalUnpackerTotalDigis);
-   fChain->SetBranchAddress("HcalUnpackerTotalHOTPDigis", &HcalUnpackerTotalHOTPDigis, &b_HcalUnpackerTotalHOTPDigis);
-   fChain->SetBranchAddress("HcalUnpackerTotalTPDigis", &HcalUnpackerTotalTPDigis, &b_HcalUnpackerTotalTPDigis);
    Notify();
 }
 
