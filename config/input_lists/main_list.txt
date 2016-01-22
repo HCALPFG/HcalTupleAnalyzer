@@ -1,2 +1,0 @@
-utca_file ./config/input_lists/utca_list.txt
-vme_file ./config/input_lists/vme_list.txt
