@@ -1,1 +1,0 @@
-../HcalTupleMaker/test/test_VME.root

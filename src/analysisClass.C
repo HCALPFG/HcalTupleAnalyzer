@@ -1,1 +1,1 @@
-../macros/analysisClass_HFPhaseScan.C
+../macros/analysisClass_TimingStudy.C
