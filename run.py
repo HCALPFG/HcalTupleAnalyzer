@@ -3,7 +3,8 @@ from subprocess import call
 from sys import argv
 
 if not len(argv)==5:
-	print "Usage: python run.py macros/analysisClass_YourAnalysis.C config/inputfilelist config/treelist output.root"
+	print "Simple Usage:\n python run.py macros/analysisClass_HFPhaseScan.C config/input_lists/simple_list.txt config/tree_lists/treelist.txt output.root"
+	print "2-input type Usage:\n python run.py macros/analysisClass_uHBHECommissioning.C config/input_lists/main_input.txt config/tree_lists/tree_list.txt output.root"
 	exit(1)
 else:
 	if(os.path.exists("./src/analysisClass.C")):
