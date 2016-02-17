@@ -112,12 +112,22 @@ TH1F* baseClass::makeTH1F(const char * name, int nbins, float xmin, float xmax )
   m_objects.push_back(hist);
   return hist;
 }
-
+TH1F* baseClass::makeTH1F(const char * name, const char * title, int nbins, float xmin, float xmax ){
+  TH1F* hist = new TH1F(name, title, nbins, xmin, xmax );
+  m_objects.push_back(hist);
+  return hist;
+}
 TH2F* baseClass::makeTH2F(const char * name, int nbinsx, float xmin, float xmax, int nbinsy, float ymin, float ymax){
   TH2F* hist = new TH2F(name, name, nbinsx, xmin, xmax, nbinsy, ymin, ymax );
   m_objects.push_back(hist);
   return hist;
 }
+TH2F* baseClass::makeTH2F(const char * name,const char * title, int nbinsx, float xmin, float xmax, int nbinsy, float ymin, float ymax){
+  TH2F* hist = new TH2F(name, title, nbinsx, xmin, xmax, nbinsy, ymin, ymax );
+  m_objects.push_back(hist);
+  return hist;
+}
+
 
 TGraph* baseClass::makeTGraph(int n, const double* x, const double* y){
   TGraph* graph = new TGraph(n,x,y);
